@@ -159,7 +159,63 @@ function App() {
         <section className="about" id="about" aria-labelledby="about-title">
           <p className="eyebrow">Who we are</p>
           <h2 id="about-title">About FIAT</h2>
-          <p>Friends making rap, sharing ideas, and building something together.</p>
+          <p className="about-intro">
+            FIAT is a music project started by Martin Aston and Piccolo Str*nzo. Every song follows the same carefully kept workflow, from the first beat to the finished video.
+          </p>
+          <ol className="workflow-list">
+            <li>
+              <span className="workflow-number">01</span>
+              <div className="workflow-copy">
+                <h3>Pick a beat</h3>
+                <p>
+                  We choose a beat, most often from{' '}
+                  <a href="https://www.beatstars.com/wxrst" target="_blank" rel="noreferrer">
+                    wxrst on BeatStars ↗
+                  </a>
+                  .
+                </p>
+              </div>
+            </li>
+            <li>
+              <span className="workflow-number">02</span>
+              <div className="workflow-copy">
+                <h3>Write it down</h3>
+                <p>
+                  With the beat looping, we grab a piece of paper and write. We like to keep it quick: our shortest songs took about 10 minutes, and our longest around 35.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span className="workflow-number">03</span>
+              <div className="workflow-copy">
+                <h3>Record the song</h3>
+                <p>
+                  Once everyone is ready, we aim for as few takes as possible. When we can get all the words right, we add a catchy or weird chorus and some ad-libs.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span className="workflow-number">04</span>
+              <div className="workflow-copy">
+                <h3>Shoot the video</h3>
+                <p>
+                  Our CameraLady captures us in a single take, keeping things as natural and weird as they come.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span className="workflow-number">05</span>
+              <div className="workflow-copy">
+                <h3>Mix and release</h3>
+                <p>
+                  Martin Aston brings it all together with his mixing skills, and the finished song and video are ready to release in a very short time.
+                </p>
+              </div>
+            </li>
+          </ol>
+          <p className="about-outro">
+            We love our Fiats: they are funny to make, but the workflow is part of what makes them feel right, so we try not to disrupt it. You will hear Italian, English, Italian dialects, and a little Spanish in our songs. We have not had an international guest feature yet, but brothers and sisters from anywhere are very welcome. We would love to rap in more languages together.
+          </p>
         </section>
       </main>
 

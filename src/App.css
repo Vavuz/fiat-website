@@ -242,10 +242,75 @@
   background: #e9e3d8;
 }
 
-.about > p:last-child {
-  max-width: 520px;
-  margin: 14px 0 0;
+.about-intro,
+.about-outro {
+  max-width: 760px;
   color: #57534d;
+}
+
+.about-intro {
+  margin: 14px 0 0;
+  font-size: 16px;
+}
+
+.workflow-list {
+  max-width: 860px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #d3cbbf;
+}
+
+.workflow-list li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #d3cbbf;
+}
+
+.workflow-number {
+  padding-top: 3px;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.workflow-copy h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.workflow-copy p {
+  margin: 5px 0 0;
+  color: #57534d;
+  font-size: 14px;
+}
+
+.workflow-copy a {
+  color: var(--ink);
+  text-decoration-color: var(--red);
+  text-underline-offset: 3px;
+}
+
+.workflow-copy a:hover {
+  color: var(--red);
+}
+
+.about-outro {
+  margin: 24px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.about-intro,
+.about-outro {
+  text-wrap: pretty;
 }
 
 .site-footer {
