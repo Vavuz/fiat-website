@@ -21,32 +21,48 @@ const crew = [
   {
     name: 'Martin Aston',
     role: 'Co-founder · Artist · Mixing',
-    description: 'Co-founded FIAT, performs on the songs, and mixes the finished tracks.',
+    tagline: 'The baroque stream-of-consciousness technician.',
+    description: 'Martin is probably the most linguistically obsessive of the group. His writing frequently abandons conventional narrative in favour of phonetic associations, unexpected connections and increasingly obscure references. Italian and English constantly bleed into each other, while literature, cinema, geography, music and general cultural trivia are thrown into the mix. His verses feel like surrealist free association disguised as technical rap.',
+    style: 'Extremely dense wordplay, internal rhymes, multilingual puns, associative writing, stream of consciousness.',
+    influences: 'Abstract/underground hip-hop, literary surrealism, avant-garde humour, cinema, literature and an apparently unhealthy amount of general cultural trivia.',
   },
   {
     name: 'Piccolo Str*nzo',
     role: 'Co-founder · Artist',
-    description: 'Co-founded FIAT and is one of the voices at the heart of the project.',
+    tagline: 'The blunt-force punchline rapper.',
+    description: 'Where Martin tends to spiral into increasingly complicated associations, Piccolo is much more direct. His writing is built around short, aggressive setups and immediate punchlines. There\'s a lot of physicality to his imagery: fire, cars, violence, speed, bodily humour, sex and money. He repeatedly establishes himself as the guy who walks into the verse and starts causing problems.',
+    style: 'Direct punchlines, aggressive humour, crude imagery, simple premises taken to absurd extremes.',
+    influences: 'Battle rap, street-rap bravado, comedy rap, vulgar internet humour and classic “say something outrageous and keep escalating” writing.',
+  },
+  {
+    name: 'CameraLady',
+    role: 'Camera · Direction',
+    tagline: 'The best there is',
+    description: 'Even though we do not pay her, she always captures the moment with the instincts of a great director. Natural, weird, and somehow done in one take: she never needs more.',
   },
   {
     name: 'Mai Barzotto',
     role: 'Artist',
-    description: 'A regular voice in the collection, including Fiat Penny and Fiat Idea.',
+    tagline: 'The technical vulgarist / surrealist.',
+    description: 'Mai\'s writing constantly jumps between everyday Italian, obscure references, double meanings, insults, and completely deranged imagery. He seems particularly interested in making unexpected linguistic connections and pushing an idea until it becomes funny. There\'s a strong interest in wordplay, phonetics and cultural references, often mixing highbrow material with extremely crude humour. His Italian occasionally incorporates Veronese dialect and regional expressions, adding another layer to his vocabulary and humour without being a constant feature of his writing.',
+    style: 'Dense wordplay, absurdist imagery, vulgar humour, cultural references, linguistic games.',
+    influences: 'Italian underground rap, surrealist comedy, internet humour, Italian regional culture, literary/cultural references, and the tradition of deliberately excessive punchline writing.',
   },
   {
     name: 'Lucian',
     role: 'Collaborating artist',
-    description: 'Featured on Fiat Grande Punto.',
+    tagline: 'The minimalist / atmosphere guy.',
+    description: 'Lucian\'s writing is more stripped-down and understated than the other main rappers, focusing more on rhythm, attitude and concise imagery than linguistic overload. He provides a more restrained contrast to the denser writing elsewhere in the crew.',
+    style: 'Sparse, rhythmic, understated, atmospheric.',
+    influences: 'Contemporary rap flows, minimalist writing, street imagery and the more repetitive/hypnotic side of hip-hop.',
   },
   {
     name: 'Loris Caldo',
     role: 'Collaborating artist',
-    description: 'Featured on Fiat Multipla.',
-  },
-  {
-    name: 'CameraLady',
-    role: 'Videographer',
-    description: 'Captures the videos in one take, keeping each shoot natural and spontaneous.',
+    tagline: 'The wildcard / crew presence.',
+    description: 'There\'s less solo material from Loris here, so his individual style is harder to define. From what\'s available, he fits naturally into the crew\'s broader absurdist, chaotic and deliberately unserious aesthetic.',
+    style: 'Chaotic crew energy, absurdist humour, irreverence.',
+    influences: 'The crew\'s shared underground/comedy-rap aesthetic and internet humour.',
   },
 ]
 
@@ -224,9 +240,16 @@ function CrewPage() {
         <ul className="crew-list">
           {crew.map((member) => (
             <li className="crew-member" key={member.name}>
-              <h2>{member.name}</h2>
-              <p className="crew-role">{member.role}</p>
-              <p>{member.description}</p>
+              <div className="crew-identity">
+                <h2>{member.name}</h2>
+                <p className="crew-role">{member.role}</p>
+              </div>
+              <div className="crew-details">
+                <p className="crew-tagline">{member.tagline}</p>
+                <p className="crew-bio">{member.description}</p>
+                {member.style && <p><strong>Style:</strong> {member.style}</p>}
+                {member.influences && <p><strong>Influences:</strong> {member.influences}</p>}
+              </div>
             </li>
           ))}
         </ul>
