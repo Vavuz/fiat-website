@@ -1,120 +1,65 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+      <header className="site-header" id="home">
+        <a className="wordmark" href="#home" aria-label="FIAT home">
+          FIAT<span className="wordmark-period">.</span>
+        </a>
+        <span className="header-note">Rap archive / Est. together</span>
+      </header>
+
+      <nav className="site-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About us</a>
+        <a href="#contact">Contact us</a>
+      </nav>
+
+      <main>
+        <section className="intro" aria-labelledby="intro-title">
+          <div className="intro-copy">
+            <p className="eyebrow">Independent rap collective</p>
+            <h1 id="intro-title">Made together.<br />Kept forever.</h1>
+            <p className="intro-description">
+              A home for every track, idea, and moment we put into the music.
+            </p>
+          </div>
+          <div className="sound-art" aria-hidden="true">
+            <span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span />
+          </div>
+          <span className="intro-index">01 / FIAT SOUNDS</span>
+        </section>
+
+        <section className="collection" aria-labelledby="collection-title">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">The music</p>
+              <h2 id="collection-title">Our collection</h2>
+            </div>
+            <span className="collection-count">No tracks yet</span>
+          </div>
+          <div className="empty-state">
+            <span className="empty-mark" aria-hidden="true">F</span>
+            <p>The first track is on its way.</p>
+          </div>
+        </section>
+
+        <section className="about" id="about" aria-labelledby="about-title">
+          <p className="eyebrow">Who we are</p>
+          <h2 id="about-title">About FIAT</h2>
+          <p>Friends making rap, sharing ideas, and building something together.</p>
+        </section>
+      </main>
+
+      <footer className="site-footer" id="contact">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <p className="eyebrow">Stay in the loop</p>
+          <h2>Contact us</h2>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <p>More from FIAT, coming soon.</p>
+        <a href="#home" className="back-to-top">Back to top ↑</a>
+      </footer>
     </>
   )
 }
