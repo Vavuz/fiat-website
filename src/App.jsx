@@ -164,12 +164,28 @@ function App() {
       </main>
 
       <footer className="site-footer" id="contact">
-        <div>
+        <div className="footer-contact">
           <p className="eyebrow">Stay in the loop</p>
           <h2>Contact us</h2>
+          <p className="contact-copy">
+            Eager to feature on one of our songs? Get in touch and tell us a little about your sound. Brothers and sisters from anywhere in the world are very welcome; we love rapping in more languages and discovering new voices.
+          </p>
+          <a className="footer-email" href="mailto:marcovava2001@gmail.com">
+            Mai Barzotto · marcovava2001@gmail.com
+          </a>
         </div>
-        <p>More from FIAT, coming soon.</p>
         <a href="#home" className="back-to-top">Back to top ↑</a>
+        <div className="footer-meta">
+          <span>© {new Date().getFullYear()} FIAT. All rights reserved.</span>
+          <span>
+            Developed by{' '}
+            <strong>
+              <a href="https://cricketdev.github.io/cricket-dev-website/" target="_blank" rel="noreferrer">
+                CricketDev
+              </a>
+            </strong>
+          </span>
+        </div>
       </footer>
     </>
   )
