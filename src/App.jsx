@@ -130,6 +130,12 @@ function App() {
             {tracks.map((track, index) => (
               <li className="track-row" key={track.videoId}>
                 <span className="track-number">{String(index + 1).padStart(2, '0')}</span>
+                <img
+                  className="track-thumbnail"
+                  src={`https://i.ytimg.com/vi/${track.videoId}/mqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                />
                 <div className="track-info">
                   <h3>{track.title}</h3>
                   <p>{track.artists}</p>

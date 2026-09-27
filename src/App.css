@@ -177,12 +177,20 @@
 }
 
 .track-row {
-  min-height: 86px;
+  min-height: 90px;
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 48px 88px;
+  grid-template-columns: 42px 88px minmax(0, 1fr) 48px 88px;
   align-items: center;
   gap: 18px;
   border-bottom: 1px solid var(--line);
+}
+
+.track-thumbnail {
+  width: 88px;
+  aspect-ratio: 16 / 9;
+  display: block;
+  object-fit: cover;
+  background: #ded8ce;
 }
 
 .track-number,
@@ -323,9 +331,13 @@
   }
 
   .track-row {
-    grid-template-columns: 28px minmax(0, 1fr) 40px;
+    grid-template-columns: 28px 64px minmax(0, 1fr) 40px;
     gap: 12px;
     padding: 12px 0;
+  }
+
+  .track-thumbnail {
+    width: 64px;
   }
 
   .track-info h3 {
@@ -338,7 +350,7 @@
   }
 
   .track-link {
-    grid-column: 2 / 4;
+    grid-column: 3 / 5;
     justify-self: start;
   }
 
