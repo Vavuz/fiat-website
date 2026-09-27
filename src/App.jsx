@@ -1,5 +1,92 @@
 import './App.css'
 
+const tracks = [
+  {
+    title: 'Fiat Penny',
+    artists: 'Mai Barzotto, Martin Aston',
+    producer: 'wxrst',
+    duration: '2:08',
+    videoId: '4jJDQGnC9Qg',
+  },
+  {
+    title: 'Fiat Idea',
+    artists: 'Martin Aston, Mai Barzotto',
+    producer: 'wxrst',
+    duration: '1:00',
+    videoId: '0WDzgXFvevU',
+  },
+  {
+    title: 'Fiat Brevetti',
+    artists: 'Mai Barzotto, Martin Aston',
+    producer: 'wxrst',
+    duration: '2:07',
+    videoId: 'xJ-CilAaf28',
+  },
+  {
+    title: 'Fiat Grande Punto',
+    artists: 'Lucian, Martin Aston, Mai Barzotto, Piccolo Str*nzo',
+    producer: 'wxrst',
+    duration: '3:07',
+    videoId: 'cUni1qQIP6s',
+  },
+  {
+    title: 'Fiat Oggi',
+    artists: 'Mai Barzotto, Martin Aston',
+    producer: 'wxrst',
+    duration: '2:32',
+    videoId: 'pPDDo4yNUMY',
+  },
+  {
+    title: 'Fiat Marea',
+    artists: 'Piccolo Str*nzo, Mai Barzotto, Martin Aston',
+    producer: 'David Linhof',
+    duration: '3:12',
+    videoId: '23y07tQGG9s',
+  },
+  {
+    title: 'Fiat Scudo',
+    artists: 'Martin Aston, Piccolo Str*nzo',
+    producer: 'wxrst',
+    duration: '2:37',
+    videoId: 'c2tjxmLgPmg',
+  },
+  {
+    title: 'Fiat Multipla',
+    artists: 'Loris Caldo, Martin Aston, Mai Barzotto',
+    producer: 'wxrst',
+    duration: '2:59',
+    videoId: 'xWIgPdfEuoc',
+  },
+  {
+    title: 'Fiat Marengo',
+    artists: 'Piccolo Str*nzo, Martin Aston',
+    producer: 'wxrst',
+    duration: '2:37',
+    videoId: '2GudihdRshE',
+  },
+  {
+    title: 'Fiat Uno',
+    artists: 'Mai Barzotto, Martin Aston',
+    producer: 'wxrst',
+    duration: '2:06',
+    videoId: '8zz5M1bQoQg',
+  },
+  {
+    title: 'Fiat Dino',
+    artists: 'Martin Aston, Piccolo Str*nzo',
+    producer: 'wxrst',
+    duration: '2:06',
+    videoId: 'jo-GiI-4QsQ',
+  },
+  {
+    title: 'Fiat Duna',
+    artists: 'Piccolo Str*nzo, Martin Aston',
+    producer: 'trabbey',
+    duration: '1:51',
+    videoId: 'XfssLvCxvgQ',
+  },
+]
+
 function App() {
   return (
     <>
@@ -37,12 +124,30 @@ function App() {
               <p className="eyebrow">The music</p>
               <h2 id="collection-title">Our collection</h2>
             </div>
-            <span className="collection-count">No tracks yet</span>
+            <span className="collection-count">12 tracks</span>
           </div>
-          <div className="empty-state">
-            <span className="empty-mark" aria-hidden="true">F</span>
-            <p>The first track is on its way.</p>
-          </div>
+          <ol className="track-list">
+            {tracks.map((track, index) => (
+              <li className="track-row" key={track.videoId}>
+                <span className="track-number">{String(index + 1).padStart(2, '0')}</span>
+                <div className="track-info">
+                  <h3>{track.title}</h3>
+                  <p>{track.artists}</p>
+                  <span>Prod. {track.producer}</span>
+                </div>
+                <span className="track-duration">{track.duration}</span>
+                <a
+                  className="track-link"
+                  href={`https://www.youtube.com/watch?v=${track.videoId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Listen to ${track.title} on YouTube`}
+                >
+                  Listen <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <section className="about" id="about" aria-labelledby="about-title">

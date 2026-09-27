@@ -170,27 +170,62 @@
   color: #716b62;
 }
 
-.empty-state {
-  min-height: 150px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  color: #716b62;
+.track-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.empty-state p {
-  font-size: 15px;
-}
-
-.empty-mark {
-  width: 54px;
-  height: 54px;
+.track-row {
+  min-height: 86px;
   display: grid;
-  place-items: center;
-  background: var(--red);
-  color: white;
+  grid-template-columns: 42px minmax(0, 1fr) 48px 88px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.track-number,
+.track-duration {
+  color: #777168;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.track-info h3 {
+  margin: 0;
+  color: var(--ink);
   font-family: var(--display);
-  font-size: 26px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.track-info p,
+.track-info > span {
+  display: inline;
+  margin: 0;
+  color: #716b62;
+  font-size: 12px;
+}
+
+.track-info > span::before {
+  content: ' / ';
+  color: #aaa296;
+}
+
+.track-link {
+  justify-self: end;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-decoration-color: var(--red);
+  text-underline-offset: 4px;
+}
+
+.track-link:hover {
+  color: var(--red);
 }
 
 .about {
@@ -285,6 +320,26 @@
   .about h2,
   .site-footer h2 {
     font-size: 30px;
+  }
+
+  .track-row {
+    grid-template-columns: 28px minmax(0, 1fr) 40px;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .track-info h3 {
+    font-size: 18px;
+  }
+
+  .track-info p,
+  .track-info > span {
+    font-size: 11px;
+  }
+
+  .track-link {
+    grid-column: 2 / 4;
+    justify-self: start;
   }
 
   .site-footer {
