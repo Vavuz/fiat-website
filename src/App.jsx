@@ -116,9 +116,9 @@ function HomePage() {
       <section className="intro" aria-labelledby="intro-title">
         <div className="intro-copy">
           <p className="eyebrow">Independent rap collective</p>
-          <h1 id="intro-title">Made together.<br />Kept forever.</h1>
+          <h1 id="intro-title">FIATs.<br />One take. No brakes.</h1>
           <p className="intro-description">
-            A home for every track, idea, and moment we put into the music.
+            A home for every track we make together, inspired by our love of rap and Fiats.
           </p>
         </div>
         <div className="sound-art" aria-hidden="true">
