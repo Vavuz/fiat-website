@@ -387,6 +387,49 @@
   border-bottom: 1px solid var(--line);
 }
 
+.crew-image,
+.crew-avatar-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.crew-image {
+  object-fit: cover;
+  background: #ded8ce;
+}
+
+.crew-avatar-placeholder {
+  display: grid;
+  place-items: center;
+  background: #e9e3d8;
+}
+
+.anonymous-icon {
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.anonymous-icon::before {
+  width: 26px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #8b857b;
+  content: '';
+}
+
+.anonymous-icon::after {
+  width: 64px;
+  height: 34px;
+  border-radius: 34px 34px 0 0;
+  background: #8b857b;
+  content: '';
+}
+
 .crew-member h2 {
   margin: 0;
   color: var(--ink);

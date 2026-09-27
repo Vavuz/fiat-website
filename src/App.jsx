@@ -1,5 +1,10 @@
 import { useEffect } from 'react'
 import { HashRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import lorisCaldoPhoto from './assets/artists/loris caldo.png'
+import lucianPhoto from './assets/artists/lucian.png'
+import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
+import martinAstonPhoto from './assets/artists/martin aston.png'
+import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
 import './App.css'
 
 const tracks = [
@@ -20,6 +25,7 @@ const tracks = [
 const crew = [
   {
     name: 'Martin Aston',
+    image: martinAstonPhoto,
     role: 'Co-founder · Artist · Mixing',
     tagline: 'The baroque stream-of-consciousness technician.',
     description: 'Martin is probably the most linguistically obsessive of the group. His writing frequently abandons conventional narrative in favour of phonetic associations, unexpected connections and increasingly obscure references. Italian and English constantly bleed into each other, while literature, cinema, geography, music and general cultural trivia are thrown into the mix. His verses feel like surrealist free association disguised as technical rap.',
@@ -28,6 +34,7 @@ const crew = [
   },
   {
     name: 'Piccolo Str*nzo',
+    image: piccoloStronzoPhoto,
     role: 'Co-founder · Artist',
     tagline: 'The blunt-force punchline rapper.',
     description: 'Where Martin tends to spiral into increasingly complicated associations, Piccolo is much more direct. His writing is built around short, aggressive setups and immediate punchlines. There\'s a lot of physicality to his imagery: fire, cars, violence, speed, bodily humour, sex and money. He repeatedly establishes himself as the guy who walks into the verse and starts causing problems.',
@@ -38,10 +45,11 @@ const crew = [
     name: 'CameraLady',
     role: 'Camera · Direction',
     tagline: 'The best there is',
-    description: 'Even though we do not pay her, she always captures the moment with the instincts of a great director. Natural, weird, and somehow done in one take: she never needs more.',
+    description: 'We do not even know what her face looks like, but even though we do not pay her, she always captures the moment with the instincts of a great director. Natural, weird, and somehow done in one take: she never needs more.',
   },
   {
     name: 'Mai Barzotto',
+    image: maiBarzottoPhoto,
     role: 'Artist',
     tagline: 'The technical vulgarist / surrealist.',
     description: 'Mai\'s writing constantly jumps between everyday Italian, obscure references, double meanings, insults, and completely deranged imagery. He seems particularly interested in making unexpected linguistic connections and pushing an idea until it becomes funny. There\'s a strong interest in wordplay, phonetics and cultural references, often mixing highbrow material with extremely crude humour. His Italian occasionally incorporates Veronese dialect and regional expressions, adding another layer to his vocabulary and humour without being a constant feature of his writing.',
@@ -50,6 +58,7 @@ const crew = [
   },
   {
     name: 'Lucian',
+    image: lucianPhoto,
     role: 'Collaborating artist',
     tagline: 'The minimalist / atmosphere guy.',
     description: 'Lucian\'s writing is more stripped-down and understated than the other main rappers, focusing more on rhythm, attitude and concise imagery than linguistic overload. He provides a more restrained contrast to the denser writing elsewhere in the crew.',
@@ -58,6 +67,7 @@ const crew = [
   },
   {
     name: 'Loris Caldo',
+    image: lorisCaldoPhoto,
     role: 'Collaborating artist',
     tagline: 'The wildcard / crew presence.',
     description: 'There\'s less solo material from Loris here, so his individual style is harder to define. From what\'s available, he fits naturally into the crew\'s broader absurdist, chaotic and deliberately unserious aesthetic.',
@@ -241,6 +251,13 @@ function CrewPage() {
           {crew.map((member) => (
             <li className="crew-member" key={member.name}>
               <div className="crew-identity">
+                {member.image ? (
+                  <img className="crew-image" src={member.image} alt={`${member.name} portrait`} loading="lazy" />
+                ) : (
+                  <div className="crew-avatar-placeholder" role="img" aria-label={`Anonymous profile icon for ${member.name}`}>
+                    <span className="anonymous-icon" aria-hidden="true" />
+                  </div>
+                )}
                 <h2>{member.name}</h2>
                 <p className="crew-role">{member.role}</p>
               </div>
