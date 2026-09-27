@@ -41,6 +41,7 @@
   display: flex;
   align-items: center;
   gap: 32px;
+  flex-wrap: wrap;
   border-bottom: 1px solid var(--line);
   background: var(--paper);
 }
@@ -354,6 +355,22 @@
   text-transform: uppercase;
 }
 
+.crew-page h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.crew-intro {
+  max-width: 600px;
+  margin: 14px 0 0;
+  color: #57534d;
+}
+
 .crew-list {
   max-width: 1100px;
   margin: 24px 0 0;
@@ -370,7 +387,7 @@
   border-bottom: 1px solid var(--line);
 }
 
-.crew-member h3 {
+.crew-member h2 {
   margin: 0;
   color: var(--ink);
   font-family: var(--display);
@@ -479,7 +496,9 @@
   }
 
   .site-nav {
-    gap: 22px;
+    gap: 8px 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .intro {
@@ -514,9 +533,12 @@
 
   .section-heading h2,
   .about h2,
-  .crew-section h2,
   .site-footer h2 {
     font-size: 30px;
+  }
+
+  .crew-page h1 {
+    font-size: 48px;
   }
 
   .about-page-intro {

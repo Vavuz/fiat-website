@@ -77,6 +77,7 @@ function SiteHeader() {
       <nav className="site-nav" aria-label="Main navigation">
         <NavLink to="/" end>Home</NavLink>
         <NavLink to="/about">About FIAT</NavLink>
+        <NavLink to="/crew">Meet the Crew</NavLink>
         <Link to="/#contact">Contact us</Link>
       </nav>
     </>
@@ -209,13 +210,21 @@ function AboutPage() {
         </p>
       </section>
 
-      <section className="crew-section" aria-labelledby="crew-title">
+    </main>
+  )
+}
+
+function CrewPage() {
+  return (
+    <main>
+      <section className="crew-section crew-page" aria-labelledby="crew-title">
         <p className="eyebrow">The people behind the tracks</p>
-        <h2 id="crew-title">Meet the crew</h2>
+        <h1 id="crew-title">Meet the crew</h1>
+        <p className="crew-intro">The artists and collaborators who bring each FIAT to life.</p>
         <ul className="crew-list">
           {crew.map((member) => (
             <li className="crew-member" key={member.name}>
-              <h3>{member.name}</h3>
+              <h2>{member.name}</h2>
               <p className="crew-role">{member.role}</p>
               <p>{member.description}</p>
             </li>
@@ -263,6 +272,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/crew" element={<CrewPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
       <SiteFooter />
