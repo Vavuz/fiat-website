@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { HashRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import ashPhoto from './assets/artists/ash.png'
 import lorisCaldoPhoto from './assets/artists/loris caldo.png'
 import lucianPhoto from './assets/artists/lucian.png'
 import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
@@ -46,6 +47,15 @@ const crew = [
     role: 'Camera · Direction',
     tagline: 'The best there is',
     description: 'We do not even know what her face looks like, but even though we do not pay her, she always captures the moment with the instincts of a great director. Natural, weird, and somehow done in one take: she never needs more.',
+  },
+  {
+    name: 'Ash',
+    image: ashPhoto,
+    role: 'Pet artist · Video cameo',
+    tagline: 'The feline executive producer.',
+    description: 'Ash appears when the moment is right, usually with no warning and absolutely no interest in doing another take. She brings quiet authority, impeccable timing and the kind of natural screen presence that cannot be taught.',
+    style: 'Unscripted entrances, silent judgement, effortless star quality.',
+    influences: 'Sunbeams, cardboard boxes and the ancient art of appearing exactly where she should not be.',
   },
   {
     name: 'Mai Barzotto',
