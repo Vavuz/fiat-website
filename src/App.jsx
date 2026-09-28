@@ -98,7 +98,7 @@ function SiteHeader() {
         <Link className="wordmark" to="/" aria-label="FIAT home">
           FIAT<span className="wordmark-period">.</span>
         </Link>
-        <span className="header-note">Rap archive / Est. together</span>
+        <span className="header-note">Rap archive / Est. 2026</span>
       </header>
       <nav className="site-nav" aria-label="Main navigation">
         <NavLink to="/" end>Home</NavLink>
@@ -138,7 +138,7 @@ function HomePage() {
         <ol className="track-list">
           {tracks.map((track, index) => (
             <li className="track-row" key={track.videoId}>
-              <span className="track-number">{String(index + 1).padStart(2, '0')}</span>
+              <span className="track-number">{String(tracks.length - index).padStart(2, '0')}</span>
               <img
                 className="track-thumbnail"
                 src={`https://i.ytimg.com/vi/${track.videoId}/mqdefault.jpg`}
