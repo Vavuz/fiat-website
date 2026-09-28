@@ -143,7 +143,7 @@ function HomePage() {
             <p className="eyebrow">The music</p>
             <h2 id="collection-title">Our collection</h2>
           </div>
-          <span className="collection-count">12 tracks</span>
+          <span className="collection-count">{tracks.length} tracks</span>
         </div>
         <ol className="track-list">
           {tracks.map((track, index) => (
