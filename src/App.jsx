@@ -32,6 +32,7 @@ const crew = [
     description: 'Martin is probably the most linguistically obsessive of the group. His writing frequently abandons conventional narrative in favour of phonetic associations, unexpected connections and increasingly obscure references. Italian and English constantly bleed into each other, while literature, cinema, geography, music and general cultural trivia are thrown into the mix. His verses feel like surrealist free association disguised as technical rap.',
     style: 'Extremely dense wordplay, internal rhymes, multilingual puns, associative writing, stream of consciousness.',
     influences: 'Abstract/underground hip-hop, literary surrealism, avant-garde humour, cinema, literature and an apparently unhealthy amount of general cultural trivia.',
+    featured: true,
   },
   {
     name: 'Piccolo Str*nzo',
@@ -41,12 +42,14 @@ const crew = [
     description: 'Where Martin tends to spiral into increasingly complicated associations, Piccolo is much more direct. His writing is built around short, aggressive setups and immediate punchlines. There\'s a lot of physicality to his imagery: fire, cars, violence, speed, bodily humour, sex and money. He repeatedly establishes himself as the guy who walks into the verse and starts causing problems.',
     style: 'Direct punchlines, aggressive humour, crude imagery, simple premises taken to absurd extremes.',
     influences: 'Battle rap, street-rap bravado, comedy rap, vulgar internet humour and classic “say something outrageous and keep escalating” writing.',
+    featured: true,
   },
   {
     name: 'CameraLady',
     role: 'Camera · Direction',
     tagline: 'The best there is',
     description: 'We do not even know what her face looks like, but even though we do not pay her, she always captures the moment with the instincts of a great director. Natural, weird, and somehow done in one take: she never needs more.',
+    featured: true,
   },
   {
     name: 'Ash',
@@ -56,6 +59,7 @@ const crew = [
     description: 'Ash appears when the moment is right, usually with no warning and absolutely no interest in doing another take. She brings quiet authority, impeccable timing and the kind of natural screen presence that cannot be taught.',
     style: 'Unscripted entrances, silent judgement, effortless star quality.',
     influences: 'Sunbeams, cardboard boxes and the ancient art of appearing exactly where she should not be.',
+    featured: true,
   },
   {
     name: 'Mai Barzotto',
@@ -65,13 +69,14 @@ const crew = [
     description: 'Mai\'s writing constantly jumps between everyday Italian, obscure references, double meanings, insults, and completely deranged imagery. He seems particularly interested in making unexpected linguistic connections and pushing an idea until it becomes funny. There\'s a strong interest in wordplay, phonetics and cultural references, often mixing highbrow material with extremely crude humour. His Italian occasionally incorporates Veronese dialect and regional expressions, adding another layer to his vocabulary and humour without being a constant feature of his writing.',
     style: 'Dense wordplay, absurdist imagery, vulgar humour, cultural references, linguistic games.',
     influences: 'Italian underground rap, surrealist comedy, internet humour, Italian regional culture, literary/cultural references, and the tradition of deliberately excessive punchline writing.',
+    featured: true,
   },
   {
     name: 'Loris Caldo',
     image: lorisCaldoPhoto,
     role: 'Collaborating artist',
     tagline: 'The wildcard / crew presence.',
-    description: 'There\'s less solo material from Loris here, so his individual style is harder to define. From what\'s available, he fits naturally into the crew\'s broader absurdist, chaotic and deliberately unserious aesthetic.',
+    description: 'Loris brings a looser, more chaotic energy to the crew, and his presence sits naturally within FIAT\'s absurdist, unserious and high-velocity world. He adds an element of unpredictability without losing the group\'s tone. ',
     style: 'Chaotic crew energy, absurdist humour, irreverence.',
     influences: 'The crew\'s shared underground/comedy-rap aesthetic and internet humour.',
   },
@@ -86,9 +91,9 @@ const crew = [
   },
   {
     name: '?',
-    role: 'Incoming collaborating artist',
+    role: 'Incoming artist',
     tagline: 'Unknown for now.',
-    description: 'Coming soon',
+    description: 'Incoming. We are still getting to know this voice, but the mystery is part of the appeal.',
     style: 'Unknown',
     influences: 'Unknown',
   },
@@ -267,7 +272,7 @@ function CrewPage() {
         <p className="crew-intro">The artists and collaborators who bring each FIAT to life.</p>
         <ul className="crew-list">
           {crew.map((member) => (
-            <li className="crew-member" key={member.name}>
+            <li className={`crew-member ${member.featured ? 'crew-member-featured' : ''}`} key={member.name}>
               <div className="crew-identity">
                 {member.image ? (
                   <img className="crew-image" src={member.image} alt={`${member.name} portrait`} loading="lazy" />
