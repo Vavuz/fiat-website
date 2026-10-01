@@ -67,6 +67,15 @@ const crew = [
     influences: 'Italian underground rap, surrealist comedy, internet humour, Italian regional culture, literary/cultural references, and the tradition of deliberately excessive punchline writing.',
   },
   {
+    name: 'Loris Caldo',
+    image: lorisCaldoPhoto,
+    role: 'Collaborating artist',
+    tagline: 'The wildcard / crew presence.',
+    description: 'There\'s less solo material from Loris here, so his individual style is harder to define. From what\'s available, he fits naturally into the crew\'s broader absurdist, chaotic and deliberately unserious aesthetic.',
+    style: 'Chaotic crew energy, absurdist humour, irreverence.',
+    influences: 'The crew\'s shared underground/comedy-rap aesthetic and internet humour.',
+  },
+  {
     name: 'Lucian',
     image: lucianPhoto,
     role: 'Collaborating artist',
@@ -76,13 +85,12 @@ const crew = [
     influences: 'Contemporary rap flows, minimalist writing, street imagery and the more repetitive/hypnotic side of hip-hop.',
   },
   {
-    name: 'Loris Caldo',
-    image: lorisCaldoPhoto,
-    role: 'Collaborating artist',
-    tagline: 'The wildcard / crew presence.',
-    description: 'There\'s less solo material from Loris here, so his individual style is harder to define. From what\'s available, he fits naturally into the crew\'s broader absurdist, chaotic and deliberately unserious aesthetic.',
-    style: 'Chaotic crew energy, absurdist humour, irreverence.',
-    influences: 'The crew\'s shared underground/comedy-rap aesthetic and internet humour.',
+    name: '?',
+    role: 'Incoming collaborating artist',
+    tagline: 'Unknown for now.',
+    description: 'Coming soon',
+    style: 'Unknown',
+    influences: 'Unknown',
   },
 ]
 
