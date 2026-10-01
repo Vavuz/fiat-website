@@ -294,6 +294,17 @@ function CrewPage() {
 }
 
 function SiteFooter() {
+  const handleBackToTop = (event) => {
+    event.preventDefault()
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    if (document.documentElement) {
+      document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    }
+    if (document.body) {
+      document.body.scrollTop = 0
+    }
+  }
+
   return (
     <footer className="site-footer" id="contact">
       <div className="footer-contact">
@@ -306,7 +317,7 @@ function SiteFooter() {
           Mai Barzotto · marcovava2001@gmail.com
         </a>
       </div>
-      <Link to="/" className="back-to-top">Back to top ↑</Link>
+      <a href="#" className="back-to-top" onClick={handleBackToTop}>Back to top ↑</a>
       <div className="footer-meta">
         <span>© {new Date().getFullYear()} FIAT. All rights reserved.</span>
         <span>
