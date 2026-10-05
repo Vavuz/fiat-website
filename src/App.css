@@ -406,6 +406,10 @@
   background: #ded8ce;
 }
 
+.crew-image-monochrome {
+  filter: grayscale(100%);
+}
+
 .crew-avatar-placeholder {
   display: grid;
   place-items: center;

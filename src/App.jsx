@@ -5,6 +5,7 @@ import lorisCaldoPhoto from './assets/artists/loris caldo.png'
 import lucianPhoto from './assets/artists/lucian.png'
 import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
 import martinAstonPhoto from './assets/artists/martin aston.png'
+import melogvanoPhoto from './assets/artists/melogvano.png'
 import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
 import './App.css'
 
@@ -91,12 +92,14 @@ const crew = [
     influences: 'Contemporary rap flows, minimalist writing, street imagery and the more repetitive/hypnotic side of hip-hop.',
   },
   {
-    name: '?',
-    role: 'Incoming artist',
-    tagline: 'Unknown for now.',
-    description: 'Incoming. We are still getting to know this voice, but the mystery is part of the appeal.',
-    style: 'Unknown',
-    influences: 'Unknown',
+    name: 'MelogVano',
+    image: melogvanoPhoto,
+    monochrome: true,
+    role: 'Collaborating artist',
+    tagline: 'The atmospheric absurdist.',
+    description: 'MelogVano brings an introspective, cinematic presence to the crew, balancing a thoughtful atmosphere with an offbeat sense of humor. His distinctive energy adds contrast and texture to FIAT\'s collaborative sound.',
+    style: 'Atmospheric, narrative-focused rap with understated delivery, surreal humor and memorable hooks.',
+    influences: 'Italian underground hip-hop, absurdist comedy and cinematic storytelling.',
   },
 ]
 
@@ -276,7 +279,7 @@ function CrewPage() {
             <li className={`crew-member ${member.featured ? 'crew-member-featured' : ''}`} key={member.name}>
               <div className="crew-identity">
                 {member.image ? (
-                  <img className="crew-image" src={member.image} alt={`${member.name} portrait`} loading="lazy" />
+                  <img className={`crew-image${member.monochrome ? ' crew-image-monochrome' : ''}`} src={member.image} alt={`${member.name} portrait`} loading="lazy" />
                 ) : (
                   <div className="crew-avatar-placeholder" role="img" aria-label={`Anonymous profile icon for ${member.name}`}>
                     <span className="anonymous-icon" aria-hidden="true" />
