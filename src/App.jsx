@@ -9,6 +9,7 @@ import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
 import './App.css'
 
 const tracks = [
+  { title: 'Fiat Panda', artists: 'MelogVano, Piccolo Str*nzo, Martin Aston, Mai Barzotto', producer: 'wxrst', duration: '3:30', videoId: '40lY_z8efTE' },
   { title: 'Fiat Penny', artists: 'Mai Barzotto, Martin Aston', producer: 'wxrst', duration: '2:08', videoId: '4jJDQGnC9Qg' },
   { title: 'Fiat Idea', artists: 'Martin Aston, Mai Barzotto', producer: 'wxrst', duration: '1:00', videoId: '0WDzgXFvevU' },
   { title: 'Fiat Brevetti', artists: 'Mai Barzotto, Martin Aston', producer: 'wxrst', duration: '2:07', videoId: 'xJ-CilAaf28' },
