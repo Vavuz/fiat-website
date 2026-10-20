@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { HashRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import ashPhoto from './assets/artists/ash.png'
 import lorisCaldoPhoto from './assets/artists/loris caldo.png'
@@ -7,6 +7,7 @@ import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
 import martinAstonPhoto from './assets/artists/martin aston.png'
 import melogvanoPhoto from './assets/artists/melogvano.png'
 import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
+import { lyricsByTitle, normalizeSongTitle } from './content/lyrics'
 import './App.css'
 
 const tracks = [
@@ -26,6 +27,14 @@ const tracks = [
   { title: 'Fiat Dino', artists: 'Martin Aston, Piccolo Str*nzo', producer: 'wxrst', duration: '2:06', videoId: 'jo-GiI-4QsQ' },
   { title: 'Fiat Duna', artists: 'Piccolo Str*nzo, Martin Aston', producer: 'trabbey', duration: '1:51', videoId: 'XfssLvCxvgQ' },
 ]
+
+const lyricSpeakerNames = new Set([
+  'Martin Aston',
+  'Mai Barzotto',
+  'Piccolo Str*nzo',
+  'Lucian',
+  'MelogVano',
+])
 
 const crew = [
   {
@@ -166,34 +175,82 @@ function HomePage() {
         </div>
         <ol className="track-list">
           {tracks.map((track, index) => (
-            <li className="track-row" key={track.videoId}>
-              <span className="track-number">{String(tracks.length - index).padStart(2, '0')}</span>
-              <img
-                className="track-thumbnail"
-                src={`https://i.ytimg.com/vi/${track.videoId}/mqdefault.jpg`}
-                alt=""
-                loading="lazy"
-              />
-              <div className="track-info">
-                <h3>{track.title}</h3>
-                <p>{track.artists}</p>
-                <span>Prod. {track.producer}</span>
-              </div>
-              <span className="track-duration">{track.duration}</span>
-              <a
-                className="track-link"
-                href={`https://www.youtube.com/watch?v=${track.videoId}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Listen to ${track.title} on YouTube`}
-              >
-                Listen <span aria-hidden="true">↗</span>
-              </a>
-            </li>
+            <TrackRow key={track.videoId} track={track} index={index} />
           ))}
         </ol>
       </section>
     </main>
+  )
+}
+
+function TrackRow({ track, index }) {
+  const [lyricsOpen, setLyricsOpen] = useState(false)
+  const songLyrics = lyricsByTitle[normalizeSongTitle(track.title.replace(/^Fiat\s+/i, ''))]
+  const lyricLines = songLyrics?.original.split('\n') ?? []
+  const lyricsId = `lyrics-${track.videoId}`
+
+  return (
+    <li className="track-entry">
+      <div className="track-row">
+        <span className="track-number">{String(tracks.length - index).padStart(2, '0')}</span>
+        <img
+          className="track-thumbnail"
+          src={`https://i.ytimg.com/vi/${track.videoId}/mqdefault.jpg`}
+          alt=""
+          loading="lazy"
+        />
+        <div className="track-info">
+          <h3>{track.title}</h3>
+          <p>{track.artists}</p>
+          <span>Prod. {track.producer}</span>
+        </div>
+        <span className="track-duration">{track.duration}</span>
+        <div className="track-actions">
+          <a
+            className="track-link"
+            href={`https://www.youtube.com/watch?v=${track.videoId}`}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Listen to ${track.title} on YouTube`}
+          >
+            Listen <span aria-hidden="true">↗</span>
+          </a>
+          <button
+            className="lyrics-toggle"
+            type="button"
+            aria-expanded={lyricsOpen}
+            aria-controls={lyricsId}
+            onClick={() => setLyricsOpen(!lyricsOpen)}
+          >
+            {lyricsOpen ? 'Hide lyrics' : 'Lyrics'}
+          </button>
+        </div>
+      </div>
+      {lyricsOpen && (
+        <section className="lyrics-panel" id={lyricsId} aria-label={`${track.title} lyrics`}>
+          <div className="lyrics-panel-heading">
+            <p className="eyebrow">Lyrics</p>
+            <span>Original</span>
+          </div>
+          {songLyrics ? (
+            <pre className="lyrics-text">
+              {lyricLines.map((line, lineIndex) => {
+                const isSpeaker = lyricSpeakerNames.has(line.replace(/:$/, '')) && line.endsWith(':')
+
+                return (
+                  <span key={`${lineIndex}-${line}`}>
+                    {isSpeaker ? <strong>{line}</strong> : line}
+                    {lineIndex < lyricLines.length - 1 ? '\n' : ''}
+                  </span>
+                )
+              })}
+            </pre>
+          ) : (
+            <p className="lyrics-pending">Lyrics coming soon.</p>
+          )}
+        </section>
+      )}
+    </li>
   )
 }
 
