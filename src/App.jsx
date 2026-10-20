@@ -412,7 +412,60 @@ function CrewPage() {
   )
 }
 
+const minigameOptions = [
+  { id: 'lyrics', number: '01', title: 'Guess the lyrics', description: 'Fill in the missing line from a song.' },
+  { id: 'artist', number: '02', title: 'Guess the artist', description: 'Name the artist behind a short lyric excerpt.' },
+  { id: 'song', number: '03', title: 'Guess the song', description: 'Identify the song from a few lyric words.' },
+]
+
 function MinigamesPage() {
+  const [selectedGame, setSelectedGame] = useState(null)
+
+  return (
+    <main>
+      <section className="minigames-page" aria-labelledby="minigames-title">
+        <div className="minigames-heading">
+          <div>
+            <p className="eyebrow">The FIAT archive</p>
+            <h1 id="minigames-title">Minigames</h1>
+            <p className="minigames-intro">Pick a game.</p>
+          </div>
+        </div>
+
+        {selectedGame ? (
+          <>
+            <button className="back-to-minigames" type="button" onClick={() => setSelectedGame(null)}>
+              ← All minigames
+            </button>
+            {selectedGame === 'lyrics' && <GuessLyricsGame />}
+            {selectedGame === 'artist' && <GuessArtistGame />}
+            {selectedGame === 'song' && <GuessSongGame />}
+          </>
+        ) : (
+          <div className="minigame-choices" aria-label="Choose a minigame">
+            {minigameOptions.map((game) => (
+              <button
+                className="minigame-choice"
+                key={game.id}
+                type="button"
+                onClick={() => setSelectedGame(game.id)}
+              >
+                <span className="minigame-choice-number">{game.number}</span>
+                <span className="minigame-choice-copy">
+                  <strong>{game.title}</strong>
+                  <span>{game.description}</span>
+                </span>
+                <span className="minigame-choice-arrow" aria-hidden="true">↗</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
+  )
+}
+
+function GuessLyricsGame() {
   const [challenge, setChallenge] = useState(() => pickLyricChallenge())
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null)
@@ -436,61 +489,56 @@ function MinigamesPage() {
   }
 
   return (
-    <main>
-      <section className="minigames-page" aria-labelledby="minigames-title">
-        <div className="minigames-heading">
-          <div>
-            <p className="eyebrow">01 / Wordplay</p>
-            <h1 id="minigames-title">Guess the lyrics</h1>
-            <p className="minigames-intro">One line is missing. Can you fill in the gap?</p>
-          </div>
-          <div className="minigame-score" aria-live="polite">
-            <span>Score</span>
-            <strong>{score}/{attempts}</strong>
-          </div>
+    <section aria-labelledby="lyrics-game-title">
+      <div className="minigame-secondary-heading">
+        <div>
+          <p className="eyebrow">01 / Wordplay</p>
+          <h2 id="lyrics-game-title">Guess the lyrics</h2>
+          <p>One line is missing. Can you fill in the gap?</p>
+        </div>
+        <div className="minigame-score" aria-live="polite">
+          <span>Score</span>
+          <strong>{score}/{attempts}</strong>
+        </div>
+      </div>
+
+      <section className="lyric-game" aria-label="Guess the lyrics game">
+        <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
+        <div className="lyric-prompt" aria-live="polite">
+          <p>{challenge.previousLine}</p>
+          <p
+            className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
+            aria-label={result === null ? 'Missing lyric line' : 'Revealed lyric line'}
+          >
+            {result === null ? '________________________' : challenge.answer}
+          </p>
+          <p>{challenge.nextLine}</p>
         </div>
 
-        <section className="lyric-game" aria-label="Guess the lyrics game">
-          <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
-          <div className="lyric-prompt" aria-live="polite">
-            <p>{challenge.previousLine}</p>
-            <p
-              className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
-              aria-label={result === null ? 'Missing lyric line' : 'Revealed lyric line'}
-            >
-              {result === null ? '________________________' : challenge.answer}
-            </p>
-            <p>{challenge.nextLine}</p>
-          </div>
-
-          {result === null ? (
-            <form className="lyric-answer-form" onSubmit={checkAnswer}>
-              <label htmlFor="lyric-answer">Your line</label>
-              <div className="lyric-answer-controls">
-                <input
-                  id="lyric-answer"
-                  type="text"
-                  autoComplete="off"
-                  value={answer}
-                  onChange={(event) => setAnswer(event.target.value)}
-                  placeholder="Type the missing line"
-                />
-                <button type="submit" disabled={!answer.trim()}>Check answer</button>
-              </div>
-              <p className="lyric-answer-hint">Minor typos and very close wording count.</p>
-            </form>
-          ) : (
-            <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
-              <p>{result ? 'Correct!' : 'Not quite.'}</p>
-              <button type="button" onClick={nextChallenge}>Next line</button>
+        {result === null ? (
+          <form className="lyric-answer-form" onSubmit={checkAnswer}>
+            <label htmlFor="lyric-answer">Your line</label>
+            <div className="lyric-answer-controls">
+              <input
+                id="lyric-answer"
+                type="text"
+                autoComplete="off"
+                value={answer}
+                onChange={(event) => setAnswer(event.target.value)}
+                placeholder="Type the missing line"
+              />
+              <button type="submit" disabled={!answer.trim()}>Check answer</button>
             </div>
-          )}
-        </section>
-
-          <GuessArtistGame />
-        <GuessSongGame />
+            <p className="lyric-answer-hint">Minor typos and very close wording count.</p>
+          </form>
+        ) : (
+          <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
+            <p>{result ? 'Correct!' : 'Not quite.'}</p>
+            <button type="button" onClick={nextChallenge}>Next line</button>
+          </div>
+        )}
       </section>
-    </main>
+    </section>
   )
 }
 
