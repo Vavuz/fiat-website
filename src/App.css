@@ -448,6 +448,15 @@
   background: #fffdf8;
 }
 
+#root:has(.minigames-page) {
+  display: flex;
+  flex-direction: column;
+}
+
+#root:has(.minigames-page) > main {
+  flex: 1;
+}
+
 .minigames-heading {
   max-width: 1100px;
   display: flex;
