@@ -153,9 +153,21 @@ function isSimilarAnswer(answer, expectedAnswer, minimumSimilarity = 0.93) {
 }
 
 function pickLyricChallenge(previousId) {
-  const availableChallenges = lyricChallenges.filter((challenge) => challenge.id !== previousId)
-  const choices = availableChallenges.length ? availableChallenges : lyricChallenges
-  return choices[Math.floor(Math.random() * choices.length)]
+  const challengesWithWordContext = lyricChallenges.filter((challenge) => challenge.answer.trim().split(/\s+/).length >= 5)
+  const availableChallenges = challengesWithWordContext.filter((challenge) => challenge.id !== previousId)
+  const choices = availableChallenges.length ? availableChallenges : challengesWithWordContext
+  const selectedChallenge = choices[Math.floor(Math.random() * choices.length)]
+  const words = selectedChallenge.answer.trim().split(/\s+/)
+  const firstHiddenWord = Math.floor(Math.random() * (words.length - 4)) + 1
+  const maxHiddenWords = Math.min(6, words.length - firstHiddenWord - 1)
+  const hiddenWordCount = Math.floor(Math.random() * (maxHiddenWords - 2)) + 3
+
+  return {
+    ...selectedChallenge,
+    previousLine: words.slice(0, firstHiddenWord).join(' '),
+    answer: words.slice(firstHiddenWord, firstHiddenWord + hiddenWordCount).join(' '),
+    nextLine: words.slice(firstHiddenWord + hiddenWordCount).join(' '),
+  }
 }
 
 function pickArtistChallenge(previousId) {
@@ -494,7 +506,7 @@ function GuessLyricsGame() {
         <div>
           <p className="eyebrow">01 / Wordplay</p>
           <h2 id="lyrics-game-title">Guess the lyrics</h2>
-          <p>One line is missing. Can you fill in the gap?</p>
+          <p>Fill in the missing words.</p>
         </div>
         <div className="minigame-score" aria-live="polite">
           <span>Score</span>
@@ -505,19 +517,21 @@ function GuessLyricsGame() {
       <section className="lyric-game" aria-label="Guess the lyrics game">
         <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
         <div className="lyric-prompt" aria-live="polite">
-          <p>{challenge.previousLine}</p>
-          <p
-            className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
-            aria-label={result === null ? 'Missing lyric line' : 'Revealed lyric line'}
-          >
-            {result === null ? '________________________' : challenge.answer}
+          <p>
+            {challenge.previousLine}{' '}
+            <span
+              className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
+              aria-label={result === null ? 'Missing lyric words' : 'Revealed lyric words'}
+            >
+              {result === null ? '_______' : challenge.answer}
+            </span>
+            {' '}{challenge.nextLine}
           </p>
-          <p>{challenge.nextLine}</p>
         </div>
 
         {result === null ? (
           <form className="lyric-answer-form" onSubmit={checkAnswer}>
-            <label htmlFor="lyric-answer">Your line</label>
+            <label htmlFor="lyric-answer">Missing words</label>
             <div className="lyric-answer-controls">
               <input
                 id="lyric-answer"
@@ -525,7 +539,7 @@ function GuessLyricsGame() {
                 autoComplete="off"
                 value={answer}
                 onChange={(event) => setAnswer(event.target.value)}
-                placeholder="Type the missing line"
+                placeholder="Type the missing words"
               />
               <button type="submit" disabled={!answer.trim()}>Check answer</button>
             </div>

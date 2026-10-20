@@ -669,7 +669,8 @@
 }
 
 .lyric-prompt .lyric-gap {
-  margin: 8px 0;
+  margin: 0 0.15em;
+  display: inline;
   color: var(--red);
   font-family: inherit;
   font-size: inherit;
