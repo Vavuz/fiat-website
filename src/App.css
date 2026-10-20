@@ -442,6 +442,247 @@
   text-transform: uppercase;
 }
 
+.minigames-page {
+  min-height: 58vh;
+  padding: 50px clamp(24px, 7vw, 96px) 70px;
+  background: #fffdf8;
+}
+
+.minigames-heading {
+  max-width: 1100px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.minigames-heading h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.minigames-intro {
+  margin: 12px 0 0;
+  color: #57534d;
+  font-size: 15px;
+}
+
+.minigame-score {
+  min-width: 82px;
+  display: grid;
+  gap: 4px;
+  color: #716b62;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.minigame-score strong {
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 38px;
+  line-height: 1;
+}
+
+.lyric-game {
+  max-width: 900px;
+  margin-top: 34px;
+  padding: 26px clamp(20px, 4vw, 42px) 32px;
+  border-left: 3px solid var(--red);
+  background: #f3eee4;
+}
+
+.artist-game-section {
+  max-width: 1100px;
+  margin-top: 56px;
+}
+
+.artist-game-heading {
+  max-width: 900px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.artist-game-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.artist-game-heading > div:first-child > p:last-child {
+  margin: 10px 0 0;
+  color: #57534d;
+  font-size: 14px;
+}
+
+.artist-guess-panel {
+  margin-top: 22px;
+}
+
+.artist-snippet {
+  margin: 24px 0 0;
+  padding-left: 18px;
+  border-left: 2px solid var(--red);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.artist-correct-answer {
+  margin: 8px 0 16px !important;
+  color: var(--red) !important;
+  font-family: var(--display) !important;
+  font-size: 18px !important;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: none !important;
+}
+
+.lyric-result.is-correct .artist-correct-answer {
+  color: #167245 !important;
+}
+
+.lyric-result.is-incorrect .artist-correct-answer {
+  color: var(--red) !important;
+}
+
+.lyric-game-song {
+  margin: 0;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.lyric-prompt {
+  margin-top: 22px;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.lyric-prompt p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.lyric-prompt .lyric-gap {
+  margin: 8px 0;
+  color: var(--red);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.lyric-prompt .lyric-gap.is-correct {
+  color: #167245;
+}
+
+.lyric-prompt .lyric-gap.is-incorrect {
+  color: var(--red);
+}
+
+.lyric-answer-form {
+  margin-top: 28px;
+}
+
+.lyric-answer-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.lyric-answer-hint {
+  margin: 8px 0 0;
+  color: #716b62;
+  font-size: 12px;
+}
+
+.lyric-answer-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.lyric-answer-controls input {
+  min-width: 0;
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid #b8b0a3;
+  border-radius: 0;
+  background: #fffdf8;
+  color: var(--ink);
+  font: inherit;
+}
+
+.lyric-answer-controls input:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.lyric-answer-controls button,
+.lyric-result button {
+  padding: 11px 16px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.lyric-answer-controls button:hover:not(:disabled),
+.lyric-result button:hover {
+  border-color: var(--red);
+  background: var(--red);
+}
+
+.lyric-answer-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.lyric-result {
+  margin-top: 26px;
+}
+
+.lyric-result p {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.lyric-result button {
+  margin-top: 16px;
+}
+
 .crew-intro {
   max-width: 600px;
   margin: 14px 0 0;
@@ -695,6 +936,54 @@
 
   .crew-page h1 {
     font-size: 48px;
+  }
+
+  .minigames-page {
+    padding-top: 42px;
+  }
+
+  .minigames-heading {
+    align-items: start;
+  }
+
+  .minigames-heading h1 {
+    font-size: 42px;
+  }
+
+  .minigame-score {
+    min-width: 52px;
+  }
+
+  .minigame-score strong {
+    font-size: 32px;
+  }
+
+  .artist-game-section {
+    margin-top: 44px;
+  }
+
+  .artist-game-heading {
+    align-items: start;
+  }
+
+  .artist-game-heading h2 {
+    font-size: 30px;
+  }
+
+  .artist-snippet {
+    font-size: 19px;
+  }
+
+  .lyric-prompt {
+    font-size: 19px;
+  }
+
+  .lyric-answer-controls {
+    flex-direction: column;
+  }
+
+  .lyric-answer-controls button {
+    min-height: 44px;
   }
 
   .about-page-intro {

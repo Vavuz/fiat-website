@@ -7,7 +7,7 @@ import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
 import martinAstonPhoto from './assets/artists/martin aston.png'
 import melogvanoPhoto from './assets/artists/melogvano.png'
 import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
-import { lyricsByTitle, normalizeSongTitle } from './content/lyrics'
+import { artistChallenges, lyricsByTitle, lyricChallenges, normalizeSongTitle } from './content/lyrics'
 import './App.css'
 
 const tracks = [
@@ -114,6 +114,56 @@ const crew = [
   },
 ]
 
+function normalizeLyricAnswer(answer) {
+  return answer
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim()
+    .replace(/\s+/g, ' ')
+}
+
+function isSimilarAnswer(answer, expectedAnswer, minimumSimilarity = 0.93) {
+  const normalizedAnswer = normalizeLyricAnswer(answer)
+  const normalizedExpected = normalizeLyricAnswer(expectedAnswer)
+  const longestLength = Math.max(normalizedAnswer.length, normalizedExpected.length)
+
+  if (!normalizedAnswer || !normalizedExpected || !longestLength) return false
+  if (Math.min(normalizedAnswer.length, normalizedExpected.length) / longestLength < 0.88) return false
+
+  let previousRow = Array.from({ length: normalizedExpected.length + 1 }, (_, index) => index)
+
+  for (let answerIndex = 1; answerIndex <= normalizedAnswer.length; answerIndex += 1) {
+    const currentRow = [answerIndex]
+
+    for (let expectedIndex = 1; expectedIndex <= normalizedExpected.length; expectedIndex += 1) {
+      const substitutionCost = normalizedAnswer[answerIndex - 1] === normalizedExpected[expectedIndex - 1] ? 0 : 1
+      currentRow[expectedIndex] = Math.min(
+        currentRow[expectedIndex - 1] + 1,
+        previousRow[expectedIndex] + 1,
+        previousRow[expectedIndex - 1] + substitutionCost,
+      )
+    }
+
+    previousRow = currentRow
+  }
+
+  return 1 - previousRow[normalizedExpected.length] / longestLength >= minimumSimilarity
+}
+
+function pickLyricChallenge(previousId) {
+  const availableChallenges = lyricChallenges.filter((challenge) => challenge.id !== previousId)
+  const choices = availableChallenges.length ? availableChallenges : lyricChallenges
+  return choices[Math.floor(Math.random() * choices.length)]
+}
+
+function pickArtistChallenge(previousId) {
+  const availableChallenges = artistChallenges.filter((challenge) => challenge.id !== previousId)
+  const choices = availableChallenges.length ? availableChallenges : artistChallenges
+  return choices[Math.floor(Math.random() * choices.length)]
+}
+
 function ScrollToLocation() {
   const { hash, pathname } = useLocation()
 
@@ -142,6 +192,7 @@ function SiteHeader() {
         <NavLink to="/" end>Home</NavLink>
         <NavLink to="/about">About FIAT</NavLink>
         <NavLink to="/crew">Meet the Crew</NavLink>
+        <NavLink to="/minigames">Minigames</NavLink>
         <Link to="/#contact">Contact us</Link>
       </nav>
     </>
@@ -361,6 +412,156 @@ function CrewPage() {
   )
 }
 
+function MinigamesPage() {
+  const [challenge, setChallenge] = useState(() => pickLyricChallenge())
+  const [answer, setAnswer] = useState('')
+  const [result, setResult] = useState(null)
+  const [score, setScore] = useState(0)
+  const [attempts, setAttempts] = useState(0)
+
+  const checkAnswer = (event) => {
+    event.preventDefault()
+    if (!answer.trim() || result !== null) return
+
+    const correct = isSimilarAnswer(answer, challenge.answer)
+    setResult(correct)
+    setAttempts((currentAttempts) => currentAttempts + 1)
+    if (correct) setScore((currentScore) => currentScore + 1)
+  }
+
+  const nextChallenge = () => {
+    setChallenge(pickLyricChallenge(challenge.id))
+    setAnswer('')
+    setResult(null)
+  }
+
+  return (
+    <main>
+      <section className="minigames-page" aria-labelledby="minigames-title">
+        <div className="minigames-heading">
+          <div>
+            <p className="eyebrow">01 / Wordplay</p>
+            <h1 id="minigames-title">Guess the lyrics</h1>
+            <p className="minigames-intro">One line is missing. Can you fill in the gap?</p>
+          </div>
+          <div className="minigame-score" aria-live="polite">
+            <span>Score</span>
+            <strong>{score}/{attempts}</strong>
+          </div>
+        </div>
+
+        <section className="lyric-game" aria-label="Guess the lyrics game">
+          <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
+          <div className="lyric-prompt" aria-live="polite">
+            <p>{challenge.previousLine}</p>
+            <p
+              className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
+              aria-label={result === null ? 'Missing lyric line' : 'Revealed lyric line'}
+            >
+              {result === null ? '________________________' : challenge.answer}
+            </p>
+            <p>{challenge.nextLine}</p>
+          </div>
+
+          {result === null ? (
+            <form className="lyric-answer-form" onSubmit={checkAnswer}>
+              <label htmlFor="lyric-answer">Your line</label>
+              <div className="lyric-answer-controls">
+                <input
+                  id="lyric-answer"
+                  type="text"
+                  autoComplete="off"
+                  value={answer}
+                  onChange={(event) => setAnswer(event.target.value)}
+                  placeholder="Type the missing line"
+                />
+                <button type="submit" disabled={!answer.trim()}>Check answer</button>
+              </div>
+              <p className="lyric-answer-hint">Minor typos and very close wording count.</p>
+            </form>
+          ) : (
+            <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
+              <p>{result ? 'Correct!' : 'Not quite.'}</p>
+              <button type="button" onClick={nextChallenge}>Next line</button>
+            </div>
+          )}
+        </section>
+
+          <GuessArtistGame />
+      </section>
+    </main>
+  )
+}
+
+  function GuessArtistGame() {
+    const [challenge, setChallenge] = useState(() => pickArtistChallenge())
+    const [answer, setAnswer] = useState('')
+    const [result, setResult] = useState(null)
+    const [score, setScore] = useState(0)
+    const [attempts, setAttempts] = useState(0)
+
+    const checkAnswer = (event) => {
+      event.preventDefault()
+      if (!answer.trim() || result !== null) return
+
+      const correct = isSimilarAnswer(answer, challenge.artist, 0.90)
+      setResult(correct)
+      setAttempts((currentAttempts) => currentAttempts + 1)
+      if (correct) setScore((currentScore) => currentScore + 1)
+    }
+
+    const nextChallenge = () => {
+      setChallenge(pickArtistChallenge(challenge.id))
+      setAnswer('')
+      setResult(null)
+    }
+
+    return (
+      <section className="artist-game-section" aria-labelledby="artist-game-title">
+        <div className="artist-game-heading">
+          <div>
+            <p className="eyebrow">02 / Who said it?</p>
+            <h2 id="artist-game-title">Guess the artist</h2>
+            <p>Read a few words and name the artist behind them.</p>
+          </div>
+          <div className="minigame-score" aria-live="polite">
+            <span>Score</span>
+            <strong>{score}/{attempts}</strong>
+          </div>
+        </div>
+
+        <div className="lyric-game artist-guess-panel">
+          <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
+          <blockquote className="artist-snippet">{challenge.snippet}</blockquote>
+
+          {result === null ? (
+            <form className="lyric-answer-form" onSubmit={checkAnswer}>
+              <label htmlFor="artist-answer">Who wrote this?</label>
+              <div className="lyric-answer-controls">
+                <input
+                  id="artist-answer"
+                  type="text"
+                  autoComplete="off"
+                  value={answer}
+                  onChange={(event) => setAnswer(event.target.value)}
+                  placeholder="Type an artist name"
+                />
+                <button type="submit" disabled={!answer.trim()}>Check answer</button>
+              </div>
+              <p className="lyric-answer-hint">Minor spelling mistakes count.</p>
+            </form>
+          ) : (
+            <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
+              <p>{result ? 'Correct artist:' : 'Not quite. The artist was:'}</p>
+              <p className="artist-correct-answer">{challenge.artist}</p>
+              <button type="button" onClick={nextChallenge}>Next excerpt</button>
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
+
 function SiteFooter() {
   const handleBackToTop = (event) => {
     event.preventDefault()
@@ -410,6 +611,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/crew" element={<CrewPage />} />
+        <Route path="/minigames" element={<MinigamesPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
       <SiteFooter />
