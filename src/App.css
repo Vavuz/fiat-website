@@ -500,12 +500,12 @@
   background: #f3eee4;
 }
 
-.artist-game-section {
+.minigame-secondary-section {
   max-width: 1100px;
   margin-top: 56px;
 }
 
-.artist-game-heading {
+.minigame-secondary-heading {
   max-width: 900px;
   display: flex;
   align-items: end;
@@ -515,7 +515,7 @@
   border-bottom: 2px solid var(--ink);
 }
 
-.artist-game-heading h2 {
+.minigame-secondary-heading h2 {
   margin: 0;
   color: var(--ink);
   font-family: var(--display);
@@ -525,17 +525,17 @@
   text-transform: uppercase;
 }
 
-.artist-game-heading > div:first-child > p:last-child {
+.minigame-secondary-heading > div:first-child > p:last-child {
   margin: 10px 0 0;
   color: #57534d;
   font-size: 14px;
 }
 
-.artist-guess-panel {
+.minigame-guess-panel {
   margin-top: 22px;
 }
 
-.artist-snippet {
+.minigame-snippet {
   margin: 24px 0 0;
   padding-left: 18px;
   border-left: 2px solid var(--red);
@@ -547,7 +547,7 @@
   overflow-wrap: anywhere;
 }
 
-.artist-correct-answer {
+.minigame-answer-reveal {
   margin: 8px 0 16px !important;
   color: var(--red) !important;
   font-family: var(--display) !important;
@@ -557,11 +557,11 @@
   text-transform: none !important;
 }
 
-.lyric-result.is-correct .artist-correct-answer {
+.lyric-result.is-correct .minigame-answer-reveal {
   color: #167245 !important;
 }
 
-.lyric-result.is-incorrect .artist-correct-answer {
+.lyric-result.is-incorrect .minigame-answer-reveal {
   color: var(--red) !important;
 }
 
@@ -958,19 +958,19 @@
     font-size: 32px;
   }
 
-  .artist-game-section {
+  .minigame-secondary-section {
     margin-top: 44px;
   }
 
-  .artist-game-heading {
+  .minigame-secondary-heading {
     align-items: start;
   }
 
-  .artist-game-heading h2 {
+  .minigame-secondary-heading h2 {
     font-size: 30px;
   }
 
-  .artist-snippet {
+  .minigame-snippet {
     font-size: 19px;
   }
 

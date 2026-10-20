@@ -488,6 +488,7 @@ function MinigamesPage() {
         </section>
 
           <GuessArtistGame />
+        <GuessSongGame />
       </section>
     </main>
   )
@@ -517,8 +518,8 @@ function MinigamesPage() {
     }
 
     return (
-      <section className="artist-game-section" aria-labelledby="artist-game-title">
-        <div className="artist-game-heading">
+      <section className="minigame-secondary-section" aria-labelledby="artist-game-title">
+        <div className="minigame-secondary-heading">
           <div>
             <p className="eyebrow">02 / Who said it?</p>
             <h2 id="artist-game-title">Guess the artist</h2>
@@ -532,7 +533,7 @@ function MinigamesPage() {
 
         <div className="lyric-game artist-guess-panel">
           <p className="lyric-game-song">FIAT / {challenge.songTitle}</p>
-          <blockquote className="artist-snippet">{challenge.snippet}</blockquote>
+          <blockquote className="minigame-snippet">{challenge.snippet}</blockquote>
 
           {result === null ? (
             <form className="lyric-answer-form" onSubmit={checkAnswer}>
@@ -553,7 +554,7 @@ function MinigamesPage() {
           ) : (
             <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
               <p>{result ? 'Correct artist:' : 'Not quite. The artist was:'}</p>
-              <p className="artist-correct-answer">{challenge.artist}</p>
+              <p className="minigame-answer-reveal">{challenge.artist}</p>
               <button type="button" onClick={nextChallenge}>Next excerpt</button>
             </div>
           )}
@@ -561,6 +562,76 @@ function MinigamesPage() {
       </section>
     )
   }
+
+function GuessSongGame() {
+  const [challenge, setChallenge] = useState(() => pickArtistChallenge())
+  const [answer, setAnswer] = useState('')
+  const [result, setResult] = useState(null)
+  const [score, setScore] = useState(0)
+  const [attempts, setAttempts] = useState(0)
+
+  const checkAnswer = (event) => {
+    event.preventDefault()
+    if (!answer.trim() || result !== null) return
+
+    const answerWithoutFiat = answer.trim().replace(/^fiat\s+/i, '')
+    const correct = isSimilarAnswer(answerWithoutFiat, challenge.songTitle, 0.92)
+    setResult(correct)
+    setAttempts((currentAttempts) => currentAttempts + 1)
+    if (correct) setScore((currentScore) => currentScore + 1)
+  }
+
+  const nextChallenge = () => {
+    setChallenge(pickArtistChallenge(challenge.id))
+    setAnswer('')
+    setResult(null)
+  }
+
+  return (
+    <section className="minigame-secondary-section" aria-labelledby="song-game-title">
+      <div className="minigame-secondary-heading">
+        <div>
+          <p className="eyebrow">03 / Name that FIAT</p>
+          <h2 id="song-game-title">Guess the song</h2>
+          <p>Read a few words and name the song they come from.</p>
+        </div>
+        <div className="minigame-score" aria-live="polite">
+          <span>Score</span>
+          <strong>{score}/{attempts}</strong>
+        </div>
+      </div>
+
+      <div className="lyric-game minigame-guess-panel">
+        <p className="lyric-game-song">A lyric from the archive</p>
+        <blockquote className="minigame-snippet">{challenge.snippet}</blockquote>
+
+        {result === null ? (
+          <form className="lyric-answer-form" onSubmit={checkAnswer}>
+            <label htmlFor="song-answer">Which song is this from?</label>
+            <div className="lyric-answer-controls">
+              <input
+                id="song-answer"
+                type="text"
+                autoComplete="off"
+                value={answer}
+                onChange={(event) => setAnswer(event.target.value)}
+                placeholder="Type the song title"
+              />
+              <button type="submit" disabled={!answer.trim()}>Check answer</button>
+            </div>
+            <p className="lyric-answer-hint">92% similarity counts. You can include or skip “Fiat”.</p>
+          </form>
+        ) : (
+          <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
+            <p>{result ? 'Correct song:' : 'Not quite. The song was:'}</p>
+            <p className="minigame-answer-reveal">FIAT {challenge.songTitle}</p>
+            <button type="button" onClick={nextChallenge}>Next excerpt</button>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
 
 function SiteFooter() {
   const handleBackToTop = (event) => {
