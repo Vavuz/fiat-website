@@ -176,6 +176,19 @@ function pickArtistChallenge(previousId) {
   return choices[Math.floor(Math.random() * choices.length)]
 }
 
+function pickMixedChallenge(previousChallenge) {
+  const types = ['lyrics', 'artist', 'song']
+  const type = types[Math.floor(Math.random() * types.length)]
+
+  if (type === 'lyrics') {
+    const previousId = previousChallenge?.type === type ? previousChallenge.id : undefined
+    return { ...pickLyricChallenge(previousId), type }
+  }
+
+  const previousId = previousChallenge?.type === type ? previousChallenge.id : undefined
+  return { ...pickArtistChallenge(previousId), type }
+}
+
 function ScrollToLocation() {
   const { hash, pathname } = useLocation()
 
@@ -428,6 +441,7 @@ const minigameOptions = [
   { id: 'lyrics', number: '01', title: 'Guess the lyrics', description: 'Fill in the missing line from a song.' },
   { id: 'artist', number: '02', title: 'Guess the artist', description: 'Name the artist behind a short lyric excerpt.' },
   { id: 'song', number: '03', title: 'Guess the song', description: 'Identify the song from a few lyric words.' },
+  { id: 'mixed', number: '04', title: 'Mixed mode', description: 'Take on all three kinds of lyric challenge.' },
 ]
 
 function MinigamesPage() {
@@ -452,6 +466,7 @@ function MinigamesPage() {
             {selectedGame === 'lyrics' && <GuessLyricsGame />}
             {selectedGame === 'artist' && <GuessArtistGame />}
             {selectedGame === 'song' && <GuessSongGame />}
+            {selectedGame === 'mixed' && <MixedMinigame />}
           </>
         ) : (
           <div className="minigame-choices" aria-label="Choose a minigame">
@@ -688,6 +703,121 @@ function GuessSongGame() {
             <p>{result ? 'Correct song:' : 'Not quite. The song was:'}</p>
             <p className="minigame-answer-reveal">FIAT {challenge.songTitle}</p>
             <button type="button" onClick={nextChallenge}>Next excerpt</button>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function MixedMinigame() {
+  const [challenge, setChallenge] = useState(() => pickMixedChallenge())
+  const [answer, setAnswer] = useState('')
+  const [result, setResult] = useState(null)
+  const [score, setScore] = useState(0)
+  const [attempts, setAttempts] = useState(0)
+
+  const checkAnswer = (event) => {
+    event.preventDefault()
+    if (!answer.trim() || result !== null) return
+
+    let correct = false
+    if (challenge.type === 'lyrics') {
+      correct = isSimilarAnswer(answer, challenge.answer)
+    } else if (challenge.type === 'artist') {
+      correct = isSimilarAnswer(answer, challenge.artist, 0.90)
+    } else {
+      correct = isSimilarAnswer(answer.trim().replace(/^fiat\s+/i, ''), challenge.songTitle, 0.92)
+    }
+
+    setResult(correct)
+    setAttempts((currentAttempts) => currentAttempts + 1)
+    if (correct) setScore((currentScore) => currentScore + 1)
+  }
+
+  const nextChallenge = () => {
+    setChallenge(pickMixedChallenge(challenge))
+    setAnswer('')
+    setResult(null)
+  }
+
+  const question = {
+    lyrics: 'Fill in the missing words.',
+    artist: 'Who wrote this?',
+    song: 'Which song is this from?',
+  }[challenge.type]
+
+  const expectedAnswer = {
+    lyrics: challenge.answer,
+    artist: challenge.artist,
+    song: `FIAT ${challenge.songTitle}`,
+  }[challenge.type]
+
+  return (
+    <section className="minigame-secondary-section" aria-labelledby="mixed-game-title">
+      <div className="minigame-secondary-heading">
+        <div>
+          <p className="eyebrow">04 / All in</p>
+          <h2 id="mixed-game-title">Mixed mode</h2>
+          <p>Each round brings a random kind of lyric challenge.</p>
+        </div>
+        <div className="minigame-score" aria-live="polite">
+          <span>Score</span>
+          <strong>{score}/{attempts}</strong>
+        </div>
+      </div>
+
+      <div className="lyric-game minigame-guess-panel">
+        <p className="lyric-game-song">
+          {challenge.type === 'lyrics' || challenge.type === 'artist'
+            ? `FIAT / ${challenge.songTitle}`
+            : 'A lyric from the archive'}
+        </p>
+
+        {challenge.type === 'lyrics' ? (
+          <div className="lyric-prompt" aria-live="polite">
+            <p>
+              {challenge.previousLine}{' '}
+              <span
+                className={`lyric-gap${result === null ? '' : result ? ' is-correct' : ' is-incorrect'}`}
+                aria-label={result === null ? 'Missing lyric words' : 'Revealed lyric words'}
+              >
+                {result === null ? '_______' : challenge.answer}
+              </span>
+              {' '}{challenge.nextLine}
+            </p>
+          </div>
+        ) : (
+          <blockquote className="minigame-snippet">{challenge.snippet}</blockquote>
+        )}
+
+        {result === null ? (
+          <form className="lyric-answer-form" onSubmit={checkAnswer}>
+            <label htmlFor="mixed-answer">{question}</label>
+            <div className="lyric-answer-controls">
+              <input
+                id="mixed-answer"
+                type="text"
+                autoComplete="off"
+                value={answer}
+                onChange={(event) => setAnswer(event.target.value)}
+                placeholder={question}
+              />
+              <button type="submit" disabled={!answer.trim()}>Check answer</button>
+            </div>
+            <p className="lyric-answer-hint">
+              {challenge.type === 'lyrics'
+                ? 'Minor typos and very close wording count.'
+                : challenge.type === 'artist'
+                  ? 'Minor spelling mistakes count.'
+                  : '92% similarity counts. You can include or skip “Fiat”.'}
+            </p>
+          </form>
+        ) : (
+          <div className={`lyric-result ${result ? 'is-correct' : 'is-incorrect'}`} aria-live="polite">
+            <p>{result ? 'Correct!' : 'Not quite.'}</p>
+            {challenge.type !== 'lyrics' && <p className="minigame-answer-reveal">{expectedAnswer}</p>}
+            <button type="button" onClick={nextChallenge}>Next round</button>
           </div>
         )}
       </div>
