@@ -7,10 +7,14 @@ import maiBarzottoPhoto from './assets/artists/mai barzotto.png'
 import martinAstonPhoto from './assets/artists/martin aston.png'
 import melogvanoPhoto from './assets/artists/melogvano.png'
 import piccoloStronzoPhoto from './assets/artists/piccolo stronzo.png'
+import emmeDPhoto from './assets/artists/emmed.jpg'
+import masCalzonePhoto from './assets/artists/màs calzone.jpg'
 import { artistChallenges, lyricsByTitle, lyricChallenges, normalizeSongTitle } from './content/lyrics'
 import './App.css'
 
 const tracks = [
+  { title: 'Fiat Topolino', artists: 'EmmeD, Màs Calzone, Mai Barzotto, Piccolo Str*nzo, Martin Aston', duration: '3:18', videoId: 'tk5FholWXOY' },
+  { title: 'Fiat Mirafiori', artists: 'Martin Aston, Piccolo Str*nzo', producer: 'Reign Beats', duration: '1:40', videoId: 'TqchiHQS6AI' },
   { title: 'Fiat Coupé', artists: 'Piccolo Str*nzo, Mai Barzotto, Martin Aston', producer: 'wxrst', duration: '3:05', videoId: 'D8LNZIiQKKk' },
   { title: 'Fiat Croma', artists: 'Martin Aston, Mai Barzotto, Piccolo Str*nzo', producer: 'wxrst', duration: '1:56', videoId: 'HYZVw-Rv4Fg' },
   { title: 'Fiat Panda', artists: 'MelogVano, Piccolo Str*nzo, Martin Aston, Mai Barzotto', producer: 'wxrst', duration: '3:30', videoId: '40lY_z8efTE' },
@@ -34,6 +38,8 @@ const lyricSpeakerNames = new Set([
   'Piccolo Str*nzo',
   'Lucian',
   'MelogVano',
+  'EmmeD',
+  'Màs Calzone'
 ])
 
 const crew = [
@@ -111,6 +117,26 @@ const crew = [
     description: 'MelogVano brings an introspective, cinematic presence to the crew, balancing a thoughtful atmosphere with an offbeat sense of humor. His distinctive energy adds contrast and texture to FIAT\'s collaborative sound.',
     style: 'Atmospheric, narrative-focused rap with understated delivery, surreal humor and memorable hooks.',
     influences: 'Italian underground hip-hop, absurdist comedy and cinematic storytelling.',
+  },
+  {
+    name: 'EmmeD',
+    image: emmeDPhoto,
+    monochrome: true,
+    role: 'Collaborating artist',
+    tagline: '???',
+    description: '???',
+    style: '???',
+    influences: '???',
+  },
+  {
+    name: 'Màs Calzone',
+    image: masCalzonePhoto,
+    monochrome: true,
+    role: 'Collaborating artist',
+    tagline: '???',
+    description: '???',
+    style: '???',
+    influences: '???',
   },
 ]
 
@@ -278,7 +304,7 @@ function TrackRow({ track, index }) {
         <div className="track-info">
           <h3>{track.title}</h3>
           <p>{track.artists}</p>
-          <span>Prod. {track.producer}</span>
+          {track.producer && <span>Prod. {track.producer}</span>}
         </div>
         <span className="track-duration">{track.duration}</span>
         <div className="track-actions">
