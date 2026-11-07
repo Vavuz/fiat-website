@@ -871,8 +871,8 @@ function SiteFooter() {
         <p className="contact-copy">
           Eager to feature on one of our songs? Get in touch and tell us a little about your sound. Brothers and sisters from anywhere in the world are very welcome; we love rapping in more languages and discovering new voices.
         </p>
-        <a className="footer-email" href="mailto:marcovava2001@gmail.com">
-          Mai Barzotto · marcovava2001@gmail.com
+        <a className="footer-email" href="mailto:fiatraparchive@gmail.com">
+          Fiat Crew · fiatraparchive@gmail.com
         </a>
       </div>
       <a href="#" className="back-to-top" onClick={handleBackToTop}>Back to top ↑</a>
