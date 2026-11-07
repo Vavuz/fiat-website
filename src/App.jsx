@@ -178,6 +178,26 @@ function isSimilarAnswer(answer, expectedAnswer, minimumSimilarity = 0.93) {
   return 1 - previousRow[normalizedExpected.length] / longestLength >= minimumSimilarity
 }
 
+const CERTIFICATE_SCORE_TARGET = 20
+
+function useMinigameScore() {
+  const [score, setScore] = useState(0)
+  const [attempts, setAttempts] = useState(0)
+  const [certificateUnlocked, setCertificateUnlocked] = useState(false)
+
+  const recordAnswer = (correct) => {
+    const nextAttempts = attempts + 1
+    const nextScore = score + Number(correct)
+    setAttempts(nextAttempts)
+    setScore(nextScore)
+    if (nextAttempts === CERTIFICATE_SCORE_TARGET && nextScore === CERTIFICATE_SCORE_TARGET) {
+      setCertificateUnlocked(true)
+    }
+  }
+
+  return { score, attempts, certificateUnlocked, recordAnswer }
+}
+
 function pickLyricChallenge(previousId) {
   const challengesWithWordContext = lyricChallenges.filter((challenge) => challenge.answer.trim().split(/\s+/).length >= 5)
   const availableChallenges = challengesWithWordContext.filter((challenge) => challenge.id !== previousId)
@@ -522,8 +542,7 @@ function GuessLyricsGame() {
   const [challenge, setChallenge] = useState(() => pickLyricChallenge())
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null)
-  const [score, setScore] = useState(0)
-  const [attempts, setAttempts] = useState(0)
+  const { score, attempts, certificateUnlocked, recordAnswer } = useMinigameScore()
 
   const checkAnswer = (event) => {
     event.preventDefault()
@@ -531,8 +550,7 @@ function GuessLyricsGame() {
 
     const correct = isSimilarAnswer(answer, challenge.answer)
     setResult(correct)
-    setAttempts((currentAttempts) => currentAttempts + 1)
-    if (correct) setScore((currentScore) => currentScore + 1)
+    recordAnswer(correct)
   }
 
   const nextChallenge = () => {
@@ -593,6 +611,7 @@ function GuessLyricsGame() {
           </div>
         )}
       </section>
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
     </section>
   )
 }
@@ -601,8 +620,7 @@ function GuessLyricsGame() {
     const [challenge, setChallenge] = useState(() => pickArtistChallenge())
     const [answer, setAnswer] = useState('')
     const [result, setResult] = useState(null)
-    const [score, setScore] = useState(0)
-    const [attempts, setAttempts] = useState(0)
+    const { score, attempts, certificateUnlocked, recordAnswer } = useMinigameScore()
 
     const checkAnswer = (event) => {
       event.preventDefault()
@@ -610,8 +628,7 @@ function GuessLyricsGame() {
 
       const correct = isSimilarAnswer(answer, challenge.artist, 0.90)
       setResult(correct)
-      setAttempts((currentAttempts) => currentAttempts + 1)
-      if (correct) setScore((currentScore) => currentScore + 1)
+      recordAnswer(correct)
     }
 
     const nextChallenge = () => {
@@ -662,6 +679,7 @@ function GuessLyricsGame() {
             </div>
           )}
         </div>
+        <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
       </section>
     )
   }
@@ -670,8 +688,7 @@ function GuessSongGame() {
   const [challenge, setChallenge] = useState(() => pickArtistChallenge())
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null)
-  const [score, setScore] = useState(0)
-  const [attempts, setAttempts] = useState(0)
+  const { score, attempts, certificateUnlocked, recordAnswer } = useMinigameScore()
 
   const checkAnswer = (event) => {
     event.preventDefault()
@@ -680,8 +697,7 @@ function GuessSongGame() {
     const answerWithoutFiat = answer.trim().replace(/^fiat\s+/i, '')
     const correct = isSimilarAnswer(answerWithoutFiat, challenge.songTitle, 0.92)
     setResult(correct)
-    setAttempts((currentAttempts) => currentAttempts + 1)
-    if (correct) setScore((currentScore) => currentScore + 1)
+    recordAnswer(correct)
   }
 
   const nextChallenge = () => {
@@ -732,6 +748,7 @@ function GuessSongGame() {
           </div>
         )}
       </div>
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
     </section>
   )
 }
@@ -740,25 +757,20 @@ function MixedMinigame() {
   const [challenge, setChallenge] = useState(() => pickMixedChallenge())
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null)
-  const [score, setScore] = useState(0)
-  const [attempts, setAttempts] = useState(0)
+  const { score, attempts, certificateUnlocked, recordAnswer } = useMinigameScore()
 
   const checkAnswer = (event) => {
     event.preventDefault()
     if (!answer.trim() || result !== null) return
 
-    let correct = false
-    if (challenge.type === 'lyrics') {
-      correct = isSimilarAnswer(answer, challenge.answer)
-    } else if (challenge.type === 'artist') {
-      correct = isSimilarAnswer(answer, challenge.artist, 0.90)
-    } else {
-      correct = isSimilarAnswer(answer.trim().replace(/^fiat\s+/i, ''), challenge.songTitle, 0.92)
-    }
+    const correct = challenge.type === 'lyrics'
+      ? isSimilarAnswer(answer, challenge.answer)
+      : challenge.type === 'artist'
+        ? isSimilarAnswer(answer, challenge.artist, 0.90)
+        : isSimilarAnswer(answer.trim().replace(/^fiat\s+/i, ''), challenge.songTitle, 0.92)
 
     setResult(correct)
-    setAttempts((currentAttempts) => currentAttempts + 1)
-    if (correct) setScore((currentScore) => currentScore + 1)
+    recordAnswer(correct)
   }
 
   const nextChallenge = () => {
@@ -846,6 +858,94 @@ function MixedMinigame() {
             <button type="button" onClick={nextChallenge}>Next round</button>
           </div>
         )}
+      </div>
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
+    </section>
+  )
+}
+
+function FanCertificate({ unlocked, target }) {
+  const [recipient, setRecipient] = useState('')
+  const [createCertificate, setCreateCertificate] = useState(null)
+  const [preparedDownload, setPreparedDownload] = useState(null)
+  const [downloadError, setDownloadError] = useState(false)
+
+  useEffect(() => {
+    if (!unlocked) return undefined
+
+    let active = true
+    import('./utils/fanCertificate')
+      .then((module) => {
+        if (active) setCreateCertificate(() => module.createFanCertificatePdf)
+      })
+      .catch(() => {
+        if (active) setDownloadError(true)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [unlocked])
+
+  useEffect(() => {
+    if (!preparedDownload) return undefined
+    return () => URL.revokeObjectURL(preparedDownload.url)
+  }, [preparedDownload])
+
+  if (!unlocked) return null
+
+  const handlePrepareDownload = () => {
+    setDownloadError(false)
+
+    try {
+      const { pdf, filename } = createCertificate(recipient.trim(), target)
+      const url = URL.createObjectURL(pdf.output('blob'))
+      setPreparedDownload({ url, filename })
+    } catch {
+      setDownloadError(true)
+    }
+  }
+
+  return (
+    <section className="perfect-run-certificate" aria-labelledby="certificate-title">
+      <div className="perfect-run-copy">
+        <p className="eyebrow">Perfect run / {target} of {target}</p>
+        <h3 id="certificate-title">You’re a real FIAT crew fan.</h3>
+        <p>Claim your official certificate and take that perfect score with you.</p>
+      </div>
+      <div className="certificate-controls">
+        <label htmlFor="certificate-recipient">Name on certificate</label>
+        <input
+          id="certificate-recipient"
+          type="text"
+          maxLength={48}
+          value={recipient}
+          onChange={(event) => {
+            setRecipient(event.target.value)
+            setPreparedDownload(null)
+          }}
+          placeholder="Your name"
+        />
+        {preparedDownload ? (
+          <a
+            className="certificate-download-link"
+            href={preparedDownload.url}
+            download={preparedDownload.filename}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Download PDF
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled={!recipient.trim() || !createCertificate}
+            onClick={handlePrepareDownload}
+          >
+            {createCertificate ? 'Create certificate PDF' : 'Preparing certificate...'}
+          </button>
+        )}
+        {downloadError && <p role="alert">The certificate could not be created. Please try again.</p>}
       </div>
     </section>
   )

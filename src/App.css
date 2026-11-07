@@ -774,6 +774,103 @@
   margin-top: 16px;
 }
 
+.perfect-run-certificate {
+  position: relative;
+  max-width: 900px;
+  margin-top: 22px;
+  padding: 22px 24px 22px 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.65fr);
+  align-items: center;
+  gap: 20px 30px;
+  border: 1px solid var(--ink);
+  background: #e9e3d8;
+}
+
+.perfect-run-certificate::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--red);
+  content: '';
+}
+
+.perfect-run-copy .eyebrow {
+  margin-bottom: 8px;
+}
+
+.perfect-run-copy h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.perfect-run-copy > p:last-child {
+  margin: 8px 0 0;
+  color: #57534d;
+  font-size: 13px;
+}
+
+.certificate-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.certificate-controls label {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.certificate-controls input {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #b8b0a3;
+  border-radius: 0;
+  background: #fffdf8;
+  color: var(--ink);
+  font: inherit;
+}
+
+.certificate-controls input:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.certificate-controls button,
+.certificate-download-link {
+  min-height: 42px;
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.certificate-controls button:hover:not(:disabled),
+.certificate-download-link:hover {
+  border-color: var(--red);
+  background: var(--red);
+}
+
+.certificate-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .crew-intro {
   max-width: 600px;
   margin: 14px 0 0;
@@ -1039,6 +1136,16 @@
 
   .minigames-heading h1 {
     font-size: 42px;
+  }
+
+  .perfect-run-certificate {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px 18px 20px 22px;
+  }
+
+  .perfect-run-copy h3 {
+    font-size: 22px;
   }
 
   .minigame-choice {
