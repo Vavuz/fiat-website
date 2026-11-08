@@ -396,9 +396,9 @@ function AboutPage() {
             <div className="workflow-copy">
               <h3>Pick a beat</h3>
               <p>
-                We choose a beat, most often from{' '}
-                <a href="https://www.beatstars.com/wxrst" target="_blank" rel="noreferrer">
-                  wxrst on BeatStars ↗
+                We choose a beat from{' '}
+                <a href="https://www.beatstars.com" target="_blank" rel="noreferrer">
+                  BeatStars ↗
                 </a>
                 .
               </p>
