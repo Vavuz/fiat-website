@@ -795,6 +795,32 @@
   content: '';
 }
 
+.certificate-emblem {
+  width: 42px;
+  aspect-ratio: 1;
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.certificate-artist .certificate-emblem {
+  color: #167245;
+}
+
+.certificate-song .certificate-emblem {
+  color: #a36417;
+}
+
+.certificate-mixed .certificate-emblem {
+  color: var(--ink);
+}
+
 .perfect-run-copy .eyebrow {
   margin-bottom: 8px;
 }
@@ -813,6 +839,18 @@
   margin: 8px 0 0;
   color: #57534d;
   font-size: 13px;
+}
+
+.certificate-artist::before {
+  background: #167245;
+}
+
+.certificate-song::before {
+  background: #a36417;
+}
+
+.certificate-mixed::before {
+  background: var(--ink);
 }
 
 .certificate-controls {

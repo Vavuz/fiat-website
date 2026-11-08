@@ -178,7 +178,7 @@ function isSimilarAnswer(answer, expectedAnswer, minimumSimilarity = 0.93) {
   return 1 - previousRow[normalizedExpected.length] / longestLength >= minimumSimilarity
 }
 
-const CERTIFICATE_SCORE_TARGET = 20
+const CERTIFICATE_SCORE_TARGET = 2
 
 function useMinigameScore() {
   const [score, setScore] = useState(0)
@@ -490,6 +490,45 @@ const minigameOptions = [
   { id: 'mixed', number: '04', title: 'Mixed mode', description: 'Take on all three kinds of lyric challenge.' },
 ]
 
+const certificateThemes = {
+  lyrics: {
+    mark: '01',
+    title: 'Lyric Line Champion',
+    description: 'For filling every lyric gap in a perfect run.',
+    pdfTitle: 'LYRIC LINE CHAMPION',
+    gameName: 'Guess the Lyrics',
+    color: [216, 50, 36],
+    motif: 'lyrics',
+  },
+  artist: {
+    mark: '02',
+    title: 'Artist Spotter',
+    description: 'For recognizing every voice in a perfect run.',
+    pdfTitle: 'ARTIST SPOTTER',
+    gameName: 'Guess the Artist',
+    color: [22, 114, 69],
+    motif: 'artist',
+  },
+  song: {
+    mark: '03',
+    title: 'FIAT Title Expert',
+    description: 'For naming every track in a perfect run.',
+    pdfTitle: 'FIAT TITLE EXPERT',
+    gameName: 'Guess the Song',
+    color: [163, 100, 23],
+    motif: 'song',
+  },
+  mixed: {
+    mark: '04',
+    title: 'FIAT Minigame Champion',
+    description: 'For mastering every kind of FIAT challenge.',
+    pdfTitle: 'FIAT MINIGAME CHAMPION',
+    gameName: 'Mixed Mode',
+    color: [28, 27, 25],
+    motif: 'mixed',
+  },
+}
+
 function MinigamesPage() {
   const [selectedGame, setSelectedGame] = useState(null)
 
@@ -611,7 +650,7 @@ function GuessLyricsGame() {
           </div>
         )}
       </section>
-      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} gameType="lyrics" />
     </section>
   )
 }
@@ -679,7 +718,7 @@ function GuessLyricsGame() {
             </div>
           )}
         </div>
-        <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
+        <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} gameType="artist" />
       </section>
     )
   }
@@ -748,7 +787,7 @@ function GuessSongGame() {
           </div>
         )}
       </div>
-      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} gameType="song" />
     </section>
   )
 }
@@ -859,16 +898,17 @@ function MixedMinigame() {
           </div>
         )}
       </div>
-      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} />
+      <FanCertificate unlocked={certificateUnlocked} target={CERTIFICATE_SCORE_TARGET} gameType="mixed" />
     </section>
   )
 }
 
-function FanCertificate({ unlocked, target }) {
+function FanCertificate({ unlocked, target, gameType }) {
   const [recipient, setRecipient] = useState('')
   const [createCertificate, setCreateCertificate] = useState(null)
   const [preparedDownload, setPreparedDownload] = useState(null)
   const [downloadError, setDownloadError] = useState(false)
+  const theme = certificateThemes[gameType]
 
   useEffect(() => {
     if (!unlocked) return undefined
@@ -898,7 +938,7 @@ function FanCertificate({ unlocked, target }) {
     setDownloadError(false)
 
     try {
-      const { pdf, filename } = createCertificate(recipient.trim(), target)
+      const { pdf, filename } = createCertificate(recipient.trim(), target, theme)
       const url = URL.createObjectURL(pdf.output('blob'))
       setPreparedDownload({ url, filename })
     } catch {
@@ -907,11 +947,12 @@ function FanCertificate({ unlocked, target }) {
   }
 
   return (
-    <section className="perfect-run-certificate" aria-labelledby="certificate-title">
+    <section className={`perfect-run-certificate certificate-${gameType}`} aria-labelledby="certificate-title">
+      <span className="certificate-emblem" aria-hidden="true">{theme.mark}</span>
       <div className="perfect-run-copy">
         <p className="eyebrow">Perfect run / {target} of {target}</p>
-        <h3 id="certificate-title">You’re a real FIAT crew fan.</h3>
-        <p>Claim your official certificate and take that perfect score with you.</p>
+        <h3 id="certificate-title">{theme.title}</h3>
+        <p>{theme.description}</p>
       </div>
       <div className="certificate-controls">
         <label htmlFor="certificate-recipient">Name on certificate</label>
