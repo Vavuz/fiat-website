@@ -178,7 +178,7 @@ function isSimilarAnswer(answer, expectedAnswer, minimumSimilarity = 0.93) {
   return 1 - previousRow[normalizedExpected.length] / longestLength >= minimumSimilarity
 }
 
-const CERTIFICATE_SCORE_TARGET = 2
+const CERTIFICATE_SCORE_TARGET = 20
 
 function useMinigameScore() {
   const [score, setScore] = useState(0)
