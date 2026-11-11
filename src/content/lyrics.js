@@ -74,21 +74,34 @@ const lyricArtistNames = new Map([
   ['MelogVano', 'MelogVano'],
 ].map(([sourceName, artistName]) => [normalizeSongTitle(sourceName), artistName]))
 
+const hookHeaderPattern = /^Hook(?:\s*\([^)]*\))?\s*:/i
+
 export const artistChallenges = Object.values(lyricsByTitle).flatMap(({ title, original }) => {
   const challenges = []
   let currentArtist = null
+  let insideHook = false
 
   original.split(/\r?\n/).forEach((line, lineIndex) => {
     const lyricLine = line.trim()
-    const attribution = lyricLine.match(/^([^:]+):$/)
 
-    if (attribution) {
-      currentArtist = lyricArtistNames.get(normalizeSongTitle(attribution[1])) ?? null
+    if (hookHeaderPattern.test(lyricLine)) {
+      currentArtist = null
+      insideHook = true
       return
     }
 
     if (!lyricLine) {
       currentArtist = null
+      insideHook = false
+      return
+    }
+
+    if (insideHook) return
+
+    const attribution = lyricLine.match(/^([^:]+):$/)
+
+    if (attribution) {
+      currentArtist = lyricArtistNames.get(normalizeSongTitle(attribution[1])) ?? null
       return
     }
 

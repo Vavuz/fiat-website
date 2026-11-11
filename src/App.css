@@ -312,6 +312,23 @@
   font-weight: 900;
 }
 
+.lyrics-text .lyrics-hook-line {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 3px;
+  padding: 2px 9px;
+  display: block;
+  border-left: 2px solid var(--red);
+  background: rgba(216, 50, 36, 0.08);
+}
+
+.lyrics-text .lyrics-hook-label {
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
+
 .lyrics-pending {
   margin: 18px 0 0;
   color: #716b62;

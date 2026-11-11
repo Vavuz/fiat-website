@@ -13,6 +13,7 @@ import { artistChallenges, lyricsByTitle, lyricChallenges, normalizeSongTitle } 
 import './App.css'
 
 const tracks = [
+  { title: 'Fiat Strada', artists: 'Martin Aston, Piccolo Str*nzo', producer: 'Requiem Cult', duration: '2:33', videoId: 'wPcIQkNInvc' },
   { title: 'Fiat Topolino', artists: 'EmmeD, Màs Calzone, Mai Barzotto, Piccolo Str*nzo, Martin Aston', duration: '3:18', videoId: 'tk5FholWXOY' },
   { title: 'Fiat Mirafiori', artists: 'Martin Aston, Piccolo Str*nzo', producer: 'Reign Beats', duration: '1:40', videoId: 'TqchiHQS6AI' },
   { title: 'Fiat Coupé', artists: 'Piccolo Str*nzo, Mai Barzotto, Martin Aston', producer: 'wxrst', duration: '3:05', videoId: 'D8LNZIiQKKk' },
@@ -41,6 +42,22 @@ const lyricSpeakerNames = new Set([
   'EmmeD',
   'Màs Calzone'
 ])
+
+function getHookLineIndexes(lines) {
+  const hookLineIndexes = new Set()
+  let insideHook = false
+
+  lines.forEach((line, lineIndex) => {
+    if (/^Hook(?:\s*\([^)]*\))?\s*:/i.test(line.trim())) insideHook = true
+    if (!line.trim()) {
+      insideHook = false
+      return
+    }
+    if (insideHook) hookLineIndexes.add(lineIndex)
+  })
+
+  return hookLineIndexes
+}
 
 const crew = [
   {
@@ -309,6 +326,7 @@ function TrackRow({ track, index }) {
   const [lyricsOpen, setLyricsOpen] = useState(false)
   const songLyrics = lyricsByTitle[normalizeSongTitle(track.title.replace(/^Fiat\s+/i, ''))]
   const lyricLines = songLyrics?.original.split('\n') ?? []
+  const hookLineIndexes = getHookLineIndexes(lyricLines)
   const lyricsId = `lyrics-${track.videoId}`
 
   return (
@@ -357,12 +375,18 @@ function TrackRow({ track, index }) {
           {songLyrics ? (
             <pre className="lyrics-text">
               {lyricLines.map((line, lineIndex) => {
+                const isHookLine = hookLineIndexes.has(lineIndex)
+                const hookHeading = line.match(/^(Hook(?:\s*\([^)]*\))?)\s*:(.*)$/i)
                 const isSpeaker = lyricSpeakerNames.has(line.replace(/:$/, '')) && line.endsWith(':')
 
                 return (
-                  <span key={`${lineIndex}-${line}`}>
-                    {isSpeaker ? <strong>{line}</strong> : line}
-                    {lineIndex < lyricLines.length - 1 ? '\n' : ''}
+                  <span className={isHookLine ? 'lyrics-hook-line' : undefined} key={`${lineIndex}-${line}`}>
+                    {hookHeading ? (
+                      <>
+                        <strong className="lyrics-hook-label">{hookHeading[1]}:</strong>{hookHeading[2]}
+                      </>
+                    ) : isSpeaker ? <strong>{line}</strong> : line}
+                    {lineIndex < lyricLines.length - 1 && !isHookLine ? '\n' : ''}
                   </span>
                 )
               })}
