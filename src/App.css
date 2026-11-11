@@ -465,12 +465,14 @@
   background: #fffdf8;
 }
 
-#root:has(.minigames-page) {
+#root:has(.minigames-page),
+#root:has(.about-page-intro) {
   display: flex;
   flex-direction: column;
 }
 
-#root:has(.minigames-page) > main {
+#root:has(.minigames-page) > main,
+#root:has(.about-page-intro) > main {
   flex: 1;
 }
 
