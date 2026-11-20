@@ -13,6 +13,7 @@ import { artistChallenges, lyricsByTitle, lyricChallenges, normalizeSongTitle } 
 import './App.css'
 
 const tracks = [
+  { title: 'Fiat Tempra', artists: 'Mai Barzotto, Martin Aston, Piccolo Str*nzo', producer: 'Distro', duration: '2:30', videoId: '7gDnGcEkyv0' },
   { title: 'Fiat Regata', artists: 'Piccolo Str*nzo, Martin Aston', producer: '1177', duration: '1:47', videoId: 'lA3DTQZXS8Q' },
   { title: 'Fiat Strada', artists: 'Martin Aston, Piccolo Str*nzo', producer: 'Requiem Cult', duration: '2:33', videoId: 'wPcIQkNInvc' },
   { title: 'Fiat Topolino', artists: 'EmmeD, Màs Calzone, Mai Barzotto, Piccolo Str*nzo, Martin Aston', duration: '3:18', videoId: 'tk5FholWXOY' },
